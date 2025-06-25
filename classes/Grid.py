@@ -10,7 +10,6 @@ class Grid:
     def get_cell(self, x: int, y: int) -> Cell:
         """
         Get the cell at the specified coordinates.
-
         :param x: X coordinate
         :param y: Y coordinate
         :return: Cell at the specified position
@@ -23,7 +22,6 @@ class Grid:
     def set_cell(self, x: int, y: int, cell_type: CellType) -> Cell:
         """
         Set the cell type at the specified coordinates.
-
         :param x: X coordinate
         :param y: Y coordinate
         :param cell_type: CellType to set
@@ -45,8 +43,3 @@ class Grid:
                 cell.position = (x, y)
                 row.append(cell)
             self.cells.append(row)
-#    def display(self):
-#        for row in self.cells:
-#            for cell in row:
-#                cell.display()
-#            print()

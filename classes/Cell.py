@@ -1,18 +1,5 @@
 import random
 
-COLORS = {
-    'RED': 'FF0000',  # Bright, vivid red
-    'GREEN': '00FF00',  # Bright, vivid green
-    'BLUE': '0000FF',  # Bright, vivid blue
-    'YELLOW': 'FFFF00',  # Bright yellow
-    'PURPLE': '800080',  # Deep purple
-    'ORANGE': 'FFA500',  # Vibrant orange
-    'BLACK': '000000',  # Pure black
-    'WHITE': 'FFFFFF',  # Pure white
-    'GRAY': '808080',  # Medium gray
-    'CYAN': '00FFFF'  # Bright cyan
-}
-
 class CellType:
     _types = {}  # Class-level dictionary to store all cell types
     hotness_total = 0
@@ -20,7 +7,6 @@ class CellType:
     def __init__(self, name: str, color: str, hotness: float = 1):
         """
         Initialize a cell type with a name and color.
-
         :param name: Name of the cell type
         :param color: Color in hex format ("#RRGGBB")
         :param hotness: Hotness of the cell type (default: 1)
@@ -50,7 +36,6 @@ class CellType:
     def get(cls, name: str):
         """
         Retrieve a cell type by name.
-        
         :param name: Name of the cell type
         :return: CellType instance
         :raises KeyError: If the cell type doesn't exist
@@ -95,7 +80,6 @@ class Cell:
     def __init__(self, cell_type: CellType, position: tuple = None):
         """
         Initialize a cell with a given type and optional position.
-
         :param cell_type: Type of the cell
         :param position: Optional tuple representing the cell's position (x, y)
         """
@@ -107,7 +91,6 @@ class Cell:
     def __repr__(self):
         """
         String representation of the cell.
-
         :return: A string describing the cell's type
         """
         return f"Cell({self.type.name})"

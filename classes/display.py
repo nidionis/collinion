@@ -35,6 +35,7 @@ class display_game:
         # For animations/transitions
         self.clock = pygame.time.Clock()
         self.fps = 60
+        self.setup_colors()
 
     def calc_cell_size(self):
         height = self.height / self.grid.height
@@ -68,16 +69,7 @@ class display_game:
         for cell in row:
             self.display_cell(cell.position)
 
-#    def display_grid(self):
-#        for row in self.grid.cells:
-#            self.display_row(row)
-#        #pygame.display.flip()
-
-
     def display_grid(self):
-        # Make sure colors are set up
-        self.setup_colors()
-
         for row in self.grid.cells:
             self.display_row(row)
         pygame.display.flip()  # This line was commented out, which means nothing will show
