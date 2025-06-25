@@ -42,6 +42,11 @@ class Grid:
             for x in range(self.width):
                 cell = self.cell_types.gen_random()
                 cell.grid = self  # Set reference to this grid
+                cell.position = (x, y)
                 row.append(cell)
             self.cells.append(row)
-
+#    def display(self):
+#        for row in self.cells:
+#            for cell in row:
+#                cell.display()
+#            print()

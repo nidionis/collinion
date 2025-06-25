@@ -1,5 +1,18 @@
 import random
 
+COLORS = {
+    'RED': 'FF0000',  # Bright, vivid red
+    'GREEN': '00FF00',  # Bright, vivid green
+    'BLUE': '0000FF',  # Bright, vivid blue
+    'YELLOW': 'FFFF00',  # Bright yellow
+    'PURPLE': '800080',  # Deep purple
+    'ORANGE': 'FFA500',  # Vibrant orange
+    'BLACK': '000000',  # Pure black
+    'WHITE': 'FFFFFF',  # Pure white
+    'GRAY': '808080',  # Medium gray
+    'CYAN': '00FFFF'  # Bright cyan
+}
+
 class CellType:
     _types = {}  # Class-level dictionary to store all cell types
     hotness_total = 0
@@ -12,12 +25,23 @@ class CellType:
         :param color: Color in hex format ("#RRGGBB")
         :param hotness: Hotness of the cell type (default: 1)
         """
+
         self.name = name
         self.color = color
         self.hotness = hotness
         # Store the type in the class-level dictionary
         CellType._types[name] = self
         CellType.hotness_total += hotness
+
+    def __repr__(self):
+        return f"CellType({self.name})"
+
+    def __eq__(self, other):
+        if isinstance(other, str):
+            return self.name == other
+        elif isinstance(other, CellType):
+            return self.name == other.name
+        return False
 
     def __sizeof__(self):
         return len(CellType._types)
@@ -43,11 +67,26 @@ class CellType:
         the probability of each type being chosen is proportional to its hotness.
         :return: CellType instance
         """
-        rand = random.random() * CellType.hotness_total
-        for cell_type in CellType._types.values():
-            rand -= cell_type.hotness
+        # Check if any cell types exist
+        if not self._types:
+            raise ValueError("No cell types defined. Create cell types before generating random cells.")
+
+        rand = random.random() * self.hotness_total
+        cell_type = None  # Default value
+
+        for type_instance in self._types.values():
+            cell_type = type_instance  # Always keep the latest as fallback
+            rand -= type_instance.hotness
             if rand <= 0:
-                return cell_type
+                break
+
+        # In case the loop didn't set cell_type (should not happen if hotness values are positive)
+        if cell_type is None:
+            return None
+            #cell_type = next(iter(self._types.values()))
+
+        cell = Cell(cell_type)
+        return cell
 
 class Cell:
     """
@@ -62,6 +101,7 @@ class Cell:
         """
         self.type = cell_type
         self.position = position
+        #self.x, self.y = position
         self.grid = None  # Reference to the grid will be set when added to a grid
 
     def __repr__(self):
