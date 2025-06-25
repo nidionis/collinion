@@ -1,5 +1,6 @@
 import pygame
 import sys
+import time
 from classes.Grid import Grid
 
 class display_game:
