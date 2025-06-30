@@ -7,14 +7,15 @@ from time import sleep
 #implement as easely using __functions__ undurscored
 def rules(cell: Cell, cell_types: CellType):
     if cell == "ALIVE":
-        return CellType.get("DEAD")
+        return "DEAD"
     if cell == "DEAD":
-        return CellType.get("ALIVE")
+        return "ALIVE"
 
 def apply_rules(grid: Grid, cell_types: CellType):
     for row in grid.cells:
         for cell in row:
-            grid.set_cell(cell.x(), cell.y(), rules(cell, cell_types))
+            new_cell =  CellType.get(rules(cell, cell_types))
+            grid.set_cell(cell.x(), cell.y(), new_cell)
     return grid
 
 def main():
