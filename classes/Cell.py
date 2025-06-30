@@ -11,7 +11,6 @@ class CellType:
         :param color: Color in hex format ("#RRGGBB")
         :param hotness: Hotness of the cell type (default: 1)
         """
-
         self.name = name
         self.color = color
         self.hotness = hotness
@@ -148,3 +147,8 @@ class Cell:
                         matching_neighbors.append(neighbor_cell)
                     
         return matching_neighbors
+
+    def x(self):
+        return self.position[0]
+    def y(self):
+        return self.position[1]

@@ -1,7 +1,10 @@
+from __future__ import annotations
 import pygame
-import sys
-import time
-from classes.Grid import Grid
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from classes.Grid import Grid
+
 
 class display_game:
 
@@ -75,11 +78,11 @@ class display_game:
             self.display_row(row)
         pygame.display.flip()  # This line was commented out, which means nothing will show
 
-        # Add event handling to keep the window open
-        running = True
-        while running:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
-            self.clock.tick(self.fps)
+        ## Add event handling to keep the window open
+        #running = True
+        #while running:
+        #    for event in pygame.event.get():
+        #        if event.type == pygame.QUIT:
+        #            pygame.quit()
+        #            sys.exit()
+        #    self.clock.tick(self.fps)

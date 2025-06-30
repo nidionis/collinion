@@ -2,28 +2,31 @@
 
 from classes.Cell import Cell, CellType
 from classes.Grid import Grid
-from classes.display import display_game
+from time import sleep
 
+#implement as easely using __functions__ undurscored
 def rules(cell: Cell, cell_types: CellType):
     if cell == "ALIVE":
-        cell = "DEAD"
+        return CellType.get("DEAD")
+    if cell == "DEAD":
+        return CellType.get("ALIVE")
 
 def apply_rules(grid: Grid, cell_types: CellType):
     for row in grid.cells:
         for cell in row:
-            rules(cell, cell_types)
+            grid.set_cell(cell.x(), cell.y(), rules(cell, cell_types))
+    return grid
 
 def main():
     CellType("ALIVE", "blue",3)
     CellType("DEAD", "red")
     grid = Grid(CellType, 30, 15)
     grid.create_random_grid()
-    display = display_game(grid, width=800, height=600, title="Color Palette Viewer")
-    display.display_grid()
-    time.sleep(1)
     while True:
-        apply_rules(grid, grid.cell_types)
-        display.clear_screen()
+        grid.display_frame()
+        sleep(1)
+        grid = apply_rules(grid, grid.cell_types)
+        grid.display_.clear_screen()
 
 if __name__ == "__main__":
     main()

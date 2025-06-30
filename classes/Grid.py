@@ -1,4 +1,5 @@
 from classes.Cell import Cell, CellType
+from classes.display import display_game
 
 class Grid:
     def __init__(self, cell_types: CellType, width: int = 640, height: int = 480):
@@ -6,6 +7,7 @@ class Grid:
         self.height = height
         self.cell_types = cell_types
         self.cells = []
+        self.display_ =  display_game(self, width=width * 10, height=height * 10, title="Collinion")
 
     def get_cell(self, x: int, y: int) -> Cell:
         """
@@ -43,3 +45,6 @@ class Grid:
                 cell.position = (x, y)
                 row.append(cell)
             self.cells.append(row)
+
+    def display_frame(self):
+        self.display_.display_grid()
