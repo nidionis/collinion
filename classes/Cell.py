@@ -19,7 +19,7 @@ class CellType:
         CellType.hotness_total += hotness
 
     def __repr__(self):
-        return f"CellType({self.name})"
+        return self.name
 
     def __eq__(self, other):
         if isinstance(other, str):
@@ -92,7 +92,7 @@ class Cell:
         String representation of the cell.
         :return: A string describing the cell's type
         """
-        return f"Cell({self.type.name})"
+        return self.type.name
         
     def __eq__(self, other):
         """
@@ -145,8 +145,7 @@ class Cell:
                 elif isinstance(cell_type, CellType):
                     if neighbor_cell.type.name == cell_type.name:
                         matching_neighbors.append(neighbor_cell)
-                    
-        return matching_neighbors
+        return len(matching_neighbors)
 
     def x(self):
         return self.position[0]

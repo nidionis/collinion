@@ -1,13 +1,41 @@
 from classes.Cell import Cell, CellType
 from classes.display import display_game
+from copy import deepcopy
 
 class Grid:
-    def __init__(self, cell_types: CellType, width: int = 640, height: int = 480):
+    def __init__(self, cell_types: CellType, width: int = 640, height: int = 480, scale: int = 10):
         self.width = width
         self.height = height
+        self.scale = scale
         self.cell_types = cell_types
         self.cells = []
-        self.display_ =  display_game(self, width=width * 10, height=height * 10, title="Collinion")
+        self.display_ =  display_game(self, width=width * scale, height=height * scale, title="Collinion")
+
+    def __deepcopy__(self, memo):
+        # if we’ve already copied this instance, return it
+        if id(self) in memo:
+            return memo[id(self)]
+
+        # 1) make a bare instance without running __init__
+        cls = self.__class__
+        new = cls.__new__(cls)
+        memo[id(self)] = new
+
+        # 2) copy primitive attributes by hand
+        new.cell_types = self.cell_types  # probably immutable or shared
+        new.width = self.width
+        new.height = self.height
+
+        # 3) deep‐copy the cell matrix
+        new.cells = [
+            [deepcopy(cell, memo) for cell in row]
+            for row in self.cells
+        ]
+
+        # why this way block the window ?
+        new.display_ = self.display_
+
+        return new
 
     def get_cell(self, x: int, y: int) -> Cell:
         """
