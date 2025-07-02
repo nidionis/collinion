@@ -1,34 +1,31 @@
-from cell_matrix.matrix import Matrix
-from cell_matrix.display import Display
-from cell_matrix.helpers import around
-from cell_matrix.cell_types import CellTypeRegistry
+from src.matrix import Matrix
+from src.display import Display
+from src.helpers import around
+from src.kinds import Kinds
 
 def rules(cell, matrix):
     alive_neighbors = around(cell, matrix, "alive")
     
-    if cell.type == "empty" and alive_neighbors == 3:
+    if cell.kind == "empty" and alive_neighbors == 3:
         return "alive"
-    elif cell.type == "alive" and (alive_neighbors < 2 or alive_neighbors > 3):
-        return "empty"
-    return None
+    elif cell.kind == "alive" and (alive_neighbors < 2 or alive_neighbors > 3):
+        return "dead"
+    #return "zombie"
+    #elif cell.kind == "zombie":
+    #    return "dead"
+    return cell.kind
 
 def main():
-    # Initialize cell type registry with hotness values
-    cell_types = CellTypeRegistry()
-    cell_types.add_type("empty", "black", hotness=0)  # 0 hotness means won't appear randomly
-    cell_types.add_type("alive", "white", hotness=30)
-    
-    # Create matrix
-    matrix = Matrix(30, 21)
-    
-    # Randomize using registry - hotness values determine probabilities
-    matrix.randomize(cell_types, fill_ratio=0.3)
-    
-    # Set up display with the right colors
-    display = Display(matrix, cell_types)
-    
-    # Run simulation
-    display.run(rules)
+    # Initialize cell kind registry with hotness values
+    kinds = Kinds()
+    kinds.add("dead", "black", hotness=5)  # 0 hotness means won't appear randomly
+    kinds.add("alive", "white", hotness=2)
+    kinds.add("zombie", "green", hotness=3)
+    counts = {"dead": 0, "alive": 0, "zombie": 0, "null": 0,}
+    for i in range(100000):
+        kind = kinds.rand()
+        counts[str(kind)] += 1
+    print(counts)
 
 if __name__ == "__main__":
     main()

@@ -42,7 +42,7 @@ class Display:
             
             self.matrix = self.matrix.apply_rules(rules)
             self.render()
-            clock.tick(10)
+            clock.tick(1000)
         
         pygame.quit()
         sys.exit()
