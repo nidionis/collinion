@@ -1,7 +1,7 @@
 from cell_matrix.matrix import Matrix
 from cell_matrix.display import Display
 from cell_matrix.helpers import around
-import random
+from cell_matrix.cell_types import CellTypeRegistry
 
 def rules(cell, matrix):
     alive_neighbors = around(cell, matrix, "alive")
@@ -13,15 +13,21 @@ def rules(cell, matrix):
     return None
 
 def main():
+    # Initialize cell type registry with hotness values
+    cell_types = CellTypeRegistry()
+    cell_types.add_type("empty", "black", hotness=0)  # 0 hotness means won't appear randomly
+    cell_types.add_type("alive", "white", hotness=30)
+    
+    # Create matrix
     matrix = Matrix(30, 21)
     
-    # Random initial state
-    for y in range(matrix.height):
-        for x in range(matrix.width):
-            if random.random() < 0.3:
-                matrix.cells[y][x].type = "alive"
+    # Randomize using registry - hotness values determine probabilities
+    matrix.randomize(cell_types, fill_ratio=0.3)
     
-    display = Display(matrix)
+    # Set up display with the right colors
+    display = Display(matrix, cell_types)
+    
+    # Run simulation
     display.run(rules)
 
 if __name__ == "__main__":

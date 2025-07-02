@@ -2,12 +2,23 @@ import pygame
 import sys
 
 class Display:
-    def __init__(self, matrix):
+    def __init__(self, matrix, cell_type_registry):
         self.matrix = matrix
+        self.cell_type_registry = cell_type_registry
         self.cell_size = 480 // max(matrix.width, matrix.height)
         pygame.init()
         self.window = pygame.display.set_mode((480, 480))
-        self.colors = {"empty": (0, 0, 0), "alive": (255, 255, 255)}
+        self.title = "Cell Matrix Simulator"
+        pygame.display.set_caption(self.title)
+        
+        # Generate color map from registry
+        self.colors = {}
+        self.update_colors()
+    
+    def update_colors(self):
+        """Update color mapping from registry"""
+        for type_name in self.cell_type_registry.get_types():
+            self.colors[type_name] = self.cell_type_registry.get_color(type_name)
     
     def render(self):
         self.window.fill((0, 0, 0))
