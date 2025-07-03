@@ -12,12 +12,8 @@ class Field:
         self.cells_tmp = np.empty((self.height, self.width), dtype=object)
 
     def apply_rules(self, rules_fn):
-        ## Create a new temporary array and apply rules vectorized
-        #self.cells_tmp = np.empty((self.height, self.width), dtype=object)
-
         # Prepare arrays for vectorized operations
         y_coords, x_coords = np.mgrid[0:self.height, 0:self.width]
-
         # Vectorized rule application
         for y, x in np.nditer([y_coords, x_coords]):
             cell = self.cells[y, x]
@@ -28,7 +24,6 @@ class Field:
             except ValueError as e:
                 print(f"Warning: {e}, keeping original kind for cell at ({x}, {y})")
                 self.cells_tmp[y, x] = cell
-
         # Swap buffers
         self.cells, self.cells_tmp = self.cells_tmp, self.cells
         return self
