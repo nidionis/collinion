@@ -33,7 +33,6 @@ class Kinds:
             "hotness": hotness
         }
         self.hotness_total += hotness
-        print("hotness_total = ", self.hotness_total )
 
     def color(self, kind):
         return self.kinds[kind]["color"]
