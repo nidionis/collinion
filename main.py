@@ -23,6 +23,8 @@ def main():
     kinds.add("alive", "white", hotness=2)
     kinds.add("zombie", "green", hotness=3)
     field = Field(kinds, 100, 100)
+    display = Display(field)
+    display.run(rules)
 
 
 
