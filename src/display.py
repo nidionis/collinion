@@ -1,17 +1,25 @@
 import pygame
 import sys
 
+
 class Display:
+    # Class constants for display configuration
+    DEFAULT_WINDOW_WIDTH = 1080
+    DEFAULT_WINDOW_HEIGHT = 720
+    DEFAULT_TITLE = "Collinion"
+    ZOOM = 1000
+
     def __init__(self, field, kinds):
         self.field = field
         self.kinds = kinds.kinds
-        self.cell_size = 480 // max(field.width, field.height)
+        # Calculate cell size based on field dimensions
+        self.cell_size = self.ZOOM // max(field.width, field.height)
+
         pygame.init()
-        self.window = pygame.display.set_mode((480, 480))
-        self.title = "Cell Matrix Simulator"
+        self.window = pygame.display.set_mode((self.DEFAULT_WINDOW_WIDTH, self.DEFAULT_WINDOW_HEIGHT))
+        self.title = self.DEFAULT_TITLE
         pygame.display.set_caption(self.title)
-        
-        # Generate color map from registry
+
         self.colors = {}
         self.update_colors()
 
