@@ -3,7 +3,6 @@ from src.kinds import Kinds
 from src.display import Display
 
 class CellProxy:
-    """A proxy object that wraps a Cell and adds context about the field"""
     def __init__(self, cell, field):
         self.cell = cell
         self.field = field
@@ -12,7 +11,6 @@ class CellProxy:
         self.kind = str(cell.kind)  # Store the kind as string for easier comparison
 
     def __eq__(self, other):
-        """Allow direct comparison with strings"""
         if isinstance(other, str):
             return self.kind == other
         return str(self.cell) == str(other)

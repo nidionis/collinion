@@ -11,27 +11,25 @@ class Field:
         self.cells = np.empty((self.height, self.width), dtype=object)
         self.cells_tmp = np.empty((self.height, self.width), dtype=object)
 
-
     def apply_rules(self, rules_fn):
-        # Create a new temporary array for the next generation
-        self.cells_tmp = np.empty((self.height, self.width), dtype=object)
-        
-        for y in range(self.height):
-            for x in range(self.width):
-                cell = self.cells[y][x]
-                try:
-                    new_kind = rules_fn(cell, self)
-                    
-                    # Create a new cell with the new kind
-                    kind_obj = self.kinds.kind(new_kind)
-                    new_cell = Cell(kind_obj, x, y)
-                    self.cells_tmp[y][x] = new_cell
-                except ValueError as e:
-                    # If kind not found, keep the old kind
-                    print(f"Warning: {e}, keeping original kind for cell at ({x}, {y})")
-                    self.cells_tmp[y][x] = cell
-                
-        # Swap the arrays
+        ## Create a new temporary array and apply rules vectorized
+        #self.cells_tmp = np.empty((self.height, self.width), dtype=object)
+
+        # Prepare arrays for vectorized operations
+        y_coords, x_coords = np.mgrid[0:self.height, 0:self.width]
+
+        # Vectorized rule application
+        for y, x in np.nditer([y_coords, x_coords]):
+            cell = self.cells[y, x]
+            try:
+                new_kind = rules_fn(cell, self)
+                kind_obj = self.kinds.kind(new_kind)
+                self.cells_tmp[y, x] = Cell(kind_obj, x, y)
+            except ValueError as e:
+                print(f"Warning: {e}, keeping original kind for cell at ({x}, {y})")
+                self.cells_tmp[y, x] = cell
+
+        # Swap buffers
         self.cells, self.cells_tmp = self.cells_tmp, self.cells
         return self
     
