@@ -2,17 +2,20 @@
 import json
 import os
 
-class Kinds:
-    config = None
-    kinds = None
-    colors = None
-    hotness_total = 0
-
-    config_dir = os.path.join(os.path.dirname(__file__), "../config")
-    config_file = os.path.join(config_dir, "config.json")
+def get_config(name="config"):
+    config_dir = os.path.join(os.path.dirname(__file__), f"../{name}")
+    config_file = os.path.join(config_dir, f"{name}.json")
     os.makedirs(config_dir, exist_ok=True)
     with open(config_file, 'r') as f:
         config = json.load(f)
+    return config
+
+
+class Kinds:
+    config = get_config("config")
+    kinds = None
+    colors = None
+    hotness_total = 0
 
     colors = config["colors"]
     try:
