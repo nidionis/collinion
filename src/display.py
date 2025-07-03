@@ -4,7 +4,7 @@ import sys
 class Display:
     def __init__(self, field, kinds):
         self.field = field
-        self.kinds = kinds
+        self.kinds = kinds.kinds
         self.cell_size = 480 // max(field.width, field.height)
         pygame.init()
         self.window = pygame.display.set_mode((480, 480))
@@ -14,20 +14,31 @@ class Display:
         # Generate color map from registry
         self.colors = {}
         self.update_colors()
-    
+
     def update_colors(self):
-        """Update color mapping from registry"""
-        for type_name in self.kinds.get_types():
-            self.colors[type_name] = self.kinds.(type_name)
-    
+        for key, val in self.kinds.items():
+            self.colors[key] = val["color"]
+
     def render(self):
         self.window.fill((0, 0, 0))
         for y in range(self.field.height):
             for x in range(self.field.width):
-                color = self.colors.get(self.field.cells[y][x].type, (100, 100, 100))
+                cell = self.field.cells[y][x]
+                cell_kind_str = str(cell.kind)
+                
+                # Get the color name from the cell kind
+                color_name = self.colors.get(cell_kind_str)
+                
+                # If we have a direct color mapping, use it
+                if color_name in self.field.kinds.colors:
+                    color_rgb = self.field.kinds.colors[color_name]
+                else:
+                    # Otherwise use a default color
+                    color_rgb = (100, 100, 100)  # Default gray
+                    
                 pygame.draw.rect(
                     self.window, 
-                    color, 
+                    color_rgb, 
                     (x * self.cell_size, y * self.cell_size, self.cell_size, self.cell_size)
                 )
         pygame.display.flip()

@@ -1,12 +1,12 @@
-from src.kinds import Kinds
+from src.kinds import Kinds, Kind
 
 class Cell:
-    def __init__(self, kind: Kinds, *pos):
+    def __init__(self, kind: Kind, *pos):
         self.x, self.y = pos
         self.kind = kind
 
     def __str__(self):
-        return self.kind
+        return str(self.kind)
 
     def __repr__(self):
         return self.kind

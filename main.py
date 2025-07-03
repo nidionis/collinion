@@ -1,31 +1,33 @@
-from src.field import Field
-from src.display import Display
-from src.helpers import around
-from src.kinds import Kinds
+# Example usage in main.py
+from src.game import Game
 
-def rules(cell, field):
-    alive_neighbors = around(cell, field, "alive")
-    
-    if cell.kind == "empty" and alive_neighbors == 3:
-        return "alive"
-    elif cell.kind == "alive" and (alive_neighbors < 2 or alive_neighbors > 3):
-        return "dead"
-    #return "zombie"
-    #elif cell.kind == "zombie":
-    #    return "dead"
-    return cell.kind
 
 def main():
-    # Initialize cell kind registry with hotness values
-    print("Initializing cell kinds...")
-    kinds = Kinds()
-    kinds.add("dead", "black", hotness=5)  # 0 hotness means won't appear randomly
-    kinds.add("alive", "white", hotness=2)
-    kinds.add("zombie", "green", hotness=3)
-    field = Field(kinds, 100, 100)
-    display = Display(field, kinds)
-    display.run(rules)
+    # Create and setup the game
+    game = Game(width=100, height=100)
 
+    # Register cell kinds - stick to one set of names to avoid confusion
+    game.add_kind("empty", "black", hotness=5)  # We'll use "empty" consistently
+    game.add_kind("alive", "white", hotness=2)
+    game.add_kind("zombie", "green", hotness=1)
+    
+    # No need to register "dead" separately if we're using "empty"
+
+    # Randomize the field
+    game.randomize()
+
+    # Define rules using the clean syntax
+    def life_rules(cell):
+        if cell == "empty" and cell.around("alive") == 3:
+            return "alive"
+        elif cell == "alive" and (cell.around("alive") < 2 or cell.around("alive") > 3):
+            return "zombie"
+        elif cell == "zombie":
+            return "empty"  # Return "empty" instead of "dead" for consistency
+        return cell
+
+    # Run the simulation
+    game.run(life_rules)
 
 
 if __name__ == "__main__":

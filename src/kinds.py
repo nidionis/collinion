@@ -10,6 +10,17 @@ def get_config(name="config"):
         config = json.load(f)
     return config
 
+class Kind:
+    def __init__(self, name, color, hotness):
+        self.name = name
+        self.color = color
+        self.hotness = hotness
+
+    def __str__(self):
+        return self.name
+
+    def __repr__(self):
+        return self.color
 
 class Kinds:
     config = get_config("config")
@@ -37,8 +48,16 @@ class Kinds:
         }
         self.hotness_total += hotness
 
+    def kind(self, name):
+        if name not in self.kinds:
+            raise ValueError(f"kind {name} not found")
+        return Kind(name, self.color(name), self.hotness(name))
+
     def color(self, kind):
         return self.kinds[kind]["color"]
+
+    def hotness(self, kind):
+        return self.kinds[kind]["hotness"]
 
     def rgb(self, kind):
         return self.colors[kind.color()]
@@ -50,5 +69,5 @@ class Kinds:
         for k, v in self.kinds.items():
             r -= v["hotness"]
             if r <= 0:
-                return k
-        return k
+                break
+        return self.kind(k)
