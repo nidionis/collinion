@@ -3,7 +3,7 @@ from src.game import Game
 
 def setup():
     # Create and setup the game
-    game = Game(width=100, height=100)
+    game = Game()
     game.add_kind("empty", "black", hotness=5)  # We'll use "empty" consistently
     game.add_kind("alive", "white", hotness=2)
     game.add_kind("zombie", "green", hotness=1)
@@ -11,7 +11,7 @@ def setup():
     return game
 
 
-def life_rules(cell):
+def rules(cell):
     if cell == "empty" and cell.around("alive") == 3:
         return "alive"
     elif cell == "alive" and (cell.around("alive") < 2 or cell.around("alive") > 3):
@@ -23,7 +23,7 @@ def life_rules(cell):
 
 def main():
     game = setup()
-    game.run(life_rules)
+    game.run(rules)
 
 
 if __name__ == "__main__":

@@ -1,3 +1,5 @@
+import pygame
+
 from src.field import Field
 from src.kinds import Kinds
 from src.display import Display
@@ -27,12 +29,13 @@ class CellProxy:
 
 class Game:
     """Game class that manages the cellular automaton simulation"""
-    
-    def __init__(self, width=100, height=100):
+    ZOOM = 10
+    def __init__(self):
+        pygame.init()
         self.kinds = Kinds()
         self.field = None
-        self.width = width
-        self.height = height
+        self.width = pygame.display.Info().current_w // self.ZOOM
+        self.height = pygame.display.Info().current_h // self.ZOOM
         self.display = None
         
     def setup(self):

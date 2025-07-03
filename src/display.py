@@ -4,24 +4,32 @@ import sys
 
 class Display:
     # Class constants for display configuration
-    DEFAULT_WINDOW_WIDTH = 1080
-    DEFAULT_WINDOW_HEIGHT = 720
     DEFAULT_TITLE = "Collinion"
-    ZOOM = 1000
 
-    def __init__(self, field, kinds):
+    def __init__(self, field, kinds, width=None, height=None):
+        if width == None:
+            self.width = pygame.display.Info().current_w
+        if height == None:
+            self.height = pygame.display.Info().current_h
         self.field = field
         self.kinds = kinds.kinds
         # Calculate cell size based on field dimensions
-        self.cell_size = self.ZOOM // max(field.width, field.height)
+        self.set_cell_size()
 
-        pygame.init()
-        self.window = pygame.display.set_mode((self.DEFAULT_WINDOW_WIDTH, self.DEFAULT_WINDOW_HEIGHT))
+        self.window = pygame.display.set_mode((self.width, self.height))
         self.title = self.DEFAULT_TITLE
         pygame.display.set_caption(self.title)
 
         self.colors = {}
         self.update_colors()
+
+    def set_cell_size(self):
+        w_ratio = self.field.width // self.height
+        h_ratio = self.field.width // self.height
+        if w_ratio > h_ratio:
+            self.cell_size = self.width // self.field.width
+        else:
+            self.cell_size = self.height // self.field.height
 
     def update_colors(self):
         for key, val in self.kinds.items():
