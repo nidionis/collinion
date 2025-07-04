@@ -1,8 +1,7 @@
-from src.cell import Cell
+from cell import Cell
 import random
-from src.kinds import Kinds, Kind
+from kinds import Kinds, Kind
 import numpy as np
-
 
 class Field:
     def __init__(self, kinds: Kinds, *size):

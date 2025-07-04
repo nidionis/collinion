@@ -1,41 +1,19 @@
 import pygame
 
-from src.field import Field
-from src.kinds import Kinds
-from src.display import Display
-
-class CellProxy:
-    def __init__(self, cell, field):
-        self.cell = cell
-        self.field = field
-        self.x = cell.x
-        self.y = cell.y
-        self.kind = str(cell.kind)  # Store the kind as string for easier comparison
-
-    def __eq__(self, other):
-        if isinstance(other, str):
-            return self.kind == other
-        return str(self.cell) == str(other)
-
-    def __str__(self):
-        return self.kind
-
-    def __repr__(self):
-        return self.kind
-
-    def around(self, kind_name):
-        """Count neighbors of a specific kind"""
-        return self.field.count_neighbors(self.x, self.y, kind_name)
+from field import Field
+from kinds import Kinds
+from display import Display
+from cell import CellProxy
 
 class Game:
     """Game class that manages the cellular automaton simulation"""
-    ZOOM = 10
-    def __init__(self):
+    def __init__(self, zoom=10):
         pygame.init()
+        self.zoom = zoom
         self.kinds = Kinds()
         self.field = None
-        self.width = pygame.display.Info().current_w // self.ZOOM
-        self.height = pygame.display.Info().current_h // self.ZOOM
+        self.width = pygame.display.Info().current_w // self.zoom
+        self.height = pygame.display.Info().current_h // self.zoom
         self.display = None
         
     def setup(self):
