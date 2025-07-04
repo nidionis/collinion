@@ -38,13 +38,6 @@ class CellProxy:
     def __repr__(self):
         return self.kind
 
-    def is_border(self, y, x):
-        if x <= 0 or x >= self.field.width - 1:
-            return True
-        if y <= 0 or y >= self.field.height - 1:
-            return True
-        return False
-
     def around(self, kind_name):
         """Count neighbors of a specific kind"""
         #return self.field.count_neighbors(self.x, self.y, kind_name)
