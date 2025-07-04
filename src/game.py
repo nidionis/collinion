@@ -40,20 +40,17 @@ class Game:
     def run(self, rules_function):
         """Start the simulation with the given rules"""
         self.setup()
-            
-        # Create a wrapper for the rules function that provides CellProxy objects
+
         def rules_wrapper(cell, field):
             cell_proxy = CellProxy(cell, field)
             result = rules_function(cell_proxy)
-            
-            # Handle different return types
             if isinstance(result, str):
                 return result
             elif isinstance(result, CellProxy):
                 return result.kind
             else:
                 return str(cell.kind)
-                
+
         self.display.run(rules_wrapper)
         
     def turn(self, rules_function):

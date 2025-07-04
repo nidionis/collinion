@@ -26,19 +26,7 @@ class Field:
         # Swap buffers
         self.cells, self.cells_tmp = self.cells_tmp, self.cells
         return self
-    
-    def count_neighbors(self, x, y, kind):
-        count = 0
-        for dy in range(-1, 2):
-            for dx in range(-1, 2):
-                if dx == 0 and dy == 0:
-                    continue
-                nx, ny = x + dx, y + dy
-                if 0 <= nx < self.width and 0 <= ny < self.height:
-                    if str(self.cells[ny][nx].kind) == kind:
-                        count += 1
-        return count
-        
+
     def rand(self):
         self.cells = np.empty((self.height, self.width), dtype=object)
         for y in range(self.height):
@@ -46,3 +34,13 @@ class Field:
                 random_kind = self.kinds.rand()
                 self.cells[y][x] = Cell(random_kind, x, y)
         return self
+
+    def neighbours(self, x, y):
+        neighbours = []
+        for y in range(y-1, y+2):
+            row = []
+            for x in range(x-1, x+2):
+                if 0 <= x < self.width and 0 <= y < self.height:
+                    row.append(self.cells[y][x])
+            neighbours.append(row)
+        return neighbours
