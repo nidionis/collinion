@@ -7,16 +7,18 @@ from cell import CellProxy, Cell
 from rules import setup, rules
 
 class Game:
-    FIELD_WIDTH = 100
-    FIELD_HEIGHT = 150
     """Game class that manages the cellular automaton simulation"""
-    def __init__(self, zoom=500):
+    def __init__(self, width=None, height=None, zoom=10):
         pygame.init()
         self.zoom = zoom
         self.kinds = Kinds()
         self.field = None
-        self.width = self.FIELD_WIDTH
-        self.height = self.FIELD_HEIGHT
+        self.width = width
+        self.height = height
+        if not self.width:
+            self.width = pygame.display.Info().current_w // self.zoom
+        if not self.height:
+            self.height = pygame.display.Info().current_h // self.zoom
         self.display = None
         
     def setup(self):
