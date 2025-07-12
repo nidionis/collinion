@@ -4,8 +4,8 @@ from game import Game
 
 def main():
     game = Game()
-    game = setup(game)
-    game.randomize()
+    game = setup(game) #add kinds made by user
+    game.setup() # make grid and Display class
     game.run(rules)
 
 

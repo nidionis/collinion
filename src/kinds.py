@@ -11,7 +11,7 @@ class Kind:
         return self.name
 
     def __repr__(self):
-        return self.color
+        return self.name
 
 class Kinds:
     config = get_config("config")
@@ -45,7 +45,7 @@ class Kinds:
         return Kind(name, self.color(name), self.hotness(name))
 
     def color(self, kind):
-        return self.kinds[kind]["color"]
+        return self.kinds[str(kind)]["color"]
 
     def hotness(self, kind):
         return self.kinds[kind]["hotness"]
@@ -56,7 +56,6 @@ class Kinds:
     def rand(self):
         import random
         r = random.randint(1, self.hotness_total)
-        #print("r= ", r)
         for k, v in self.kinds.items():
             r -= v["hotness"]
             if r <= 0:

@@ -1,33 +1,20 @@
 from cell import Cell
 import random
 from kinds import Kinds, Kind
-import numpy as np
 
 class Field:
     def __init__(self, kinds: Kinds, *size):
         self.width , self.height = size
         self.kinds = kinds
-        self.cells = np.empty((self.height, self.width), dtype=object)
-
-    def apply_rules(self, rules_fn):
-        cells_tmp = np.empty((self.height, self.width), dtype=object)
-        # Prepare arrays for vectorized operations
-        y_coords, x_coords = np.mgrid[0:self.height, 0:self.width]
-        # Vectorized rule application
-        for y, x in np.nditer([y_coords, x_coords]):
-            cell = self.cells[y, x]
-            new_kind = rules_fn(cell, self)
-            kind_obj = self.kinds.kind(new_kind)
-            cells_tmp[y, x] = Cell(kind_obj, x, y)
-        self.cells = cells_tmp
-        return self
+        self.cells = []
 
     def rand(self):
-        self.cells = np.empty((self.height, self.width), dtype=object)
         for y in range(self.height):
+            row = []
             for x in range(self.width):
                 random_kind = self.kinds.rand()
-                self.cells[y][x] = Cell(random_kind, x, y)
+                row.append(Cell(random_kind, x, y))
+            self.cells.append(row)
         return self
 
     def is_border(self, y, x):
@@ -38,12 +25,23 @@ class Field:
         return False
 
     def neighbours(self, x, y):
-        # return the 3x3 grid of cells around (x, y) (including itself)
-        neighbours = []
-        for y in range(y-1, y+2):
+        ls_neighbours = []
+        for i_y in range(y-1, y+2):
             row = []
-            for x in range(x-1, x+2):
-                if not self.is_border(y, x):
-                    row.append(self.cells[y][x])
-            neighbours.append(row)
-        return neighbours
+            for i_x in range(x-1, x+2):
+                if not self.is_border(i_y, i_x):
+                    if i_x == x and i_y == y:
+                        row.append(None)
+                    else:
+                        row.append(self.cells[i_y][i_x])
+            ls_neighbours.append(row)
+        return ls_neighbours
+
+#def neighbours(self, x: int, y: int):
+#    """Return the eight neighbouring cells of (x, y) as a flat list."""
+#    return [
+#        self.cells[j][i]
+#        for j in range(y - 1, y + 2)
+#        for i in range(x - 1, x + 2)
+#        if not self.is_border(j, i) and (i, j) != (x, y)
+#    ]

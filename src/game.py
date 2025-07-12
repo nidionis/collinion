@@ -3,17 +3,20 @@ import pygame
 from field import Field
 from kinds import Kinds
 from display import Display
-from cell import CellProxy
+from cell import CellProxy, Cell
+from rules import setup, rules
 
 class Game:
+    FIELD_WIDTH = 100
+    FIELD_HEIGHT = 150
     """Game class that manages the cellular automaton simulation"""
-    def __init__(self, zoom=10):
+    def __init__(self, zoom=500):
         pygame.init()
         self.zoom = zoom
         self.kinds = Kinds()
         self.field = None
-        self.width = pygame.display.Info().current_w // self.zoom
-        self.height = pygame.display.Info().current_h // self.zoom
+        self.width = self.FIELD_WIDTH
+        self.height = self.FIELD_HEIGHT
         self.display = None
         
     def setup(self):
@@ -22,7 +25,7 @@ class Game:
             self.field = Field(self.kinds, self.width, self.height)
             self.field.rand()
         if not self.display:
-            self.display = Display(self.field, self.kinds)
+            self.display = Display(self)
         return self
         
     def add_kind(self, name, color, hotness=1):
@@ -37,38 +40,26 @@ class Game:
         self.field.rand()
         return self
         
-    def run(self, rules_function):
+    def run(self, rules):
         """Start the simulation with the given rules"""
         self.setup()
+        self.display.run(rules)
 
-        def rules_wrapper(cell, field):
-            cell_proxy = CellProxy(cell, field)
-            result = rules_function(cell_proxy)
-            if isinstance(result, str):
-                return result
-            elif isinstance(result, CellProxy):
-                return result.kind
-            else:
-                return str(cell.kind)
+    def switch_cell(self, cell, rules):
+        cell_proxy = CellProxy(cell, self.field)
+        return str(rules(cell_proxy))
 
-        self.display.run(rules_wrapper)
-        
-    def turn(self, rules_function):
-        """Apply one generation of rules and return the game object"""
-        self.setup()
-            
-        # Create a wrapper as above
-        def rules_wrapper(cell, field):
-            cell_proxy = CellProxy(cell, field)
-            result = rules_function(cell_proxy)
-            
-            # Handle different return types
-            if isinstance(result, str):
-                return result
-            elif isinstance(result, CellProxy):
-                return result.kind
-            else:
-                return str(cell.kind)
-                
-        self.field.apply_rules(rules_wrapper)
-        return self
+    def switch(self, rules):
+        new_cells = []
+        for y in range(self.height):
+            row = []
+            for x in range(self.width):
+                cell = self.field.cells[y][x]
+                new_kind = str(self.switch_cell(cell, rules))
+                if not new_kind:
+                    new_kind = str(cell)
+                kind_obj = self.kinds.kind(new_kind)
+                row.append(Cell(kind_obj, x, y))
+            new_cells.append(row)
+        self.field.cells = new_cells
+        #return new_cells
