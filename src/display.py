@@ -22,6 +22,7 @@ class Display:
         self.title = self.DEFAULT_TITLE
         pygame.display.set_caption(self.title)
 
+        self.frame_rate = 60
         self.colors = {}
 
     def get_cells(self):
@@ -57,10 +58,21 @@ class Display:
         running = True
         while running:
             for event in pygame.event.get():
-                if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_q):
+                if event.type == pygame.QUIT:
                     running = False
+                keys = pygame.key.get_pressed()
+                if keys[pygame.K_LEFT]:
+                    continue
+                if keys[pygame.K_RIGHT]:
+                    continue
+                if keys[pygame.K_UP] and self.frame_rate < 1000:
+                    self.frame_rate *= 1.2
+                    continue
+                if keys[pygame.K_DOWN] and self.frame_rate > 0.5:
+                    self.frame_rate /= 1.2
+                    continue
             self.game.switch(rules)
             self.render()
-            clock.tick(5)
+            clock.tick(self.frame_rate)
         pygame.quit()
         sys.exit()

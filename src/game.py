@@ -10,7 +10,7 @@ class Game:
     """Game class that manages the cellular automaton simulation"""
     def __init__(self, width=None, height=None, zoom=10):
         pygame.init()
-        self.zoom = zoom
+        self.zoom = zoom # default nb pixels per cell
         self.kinds = Kinds()
         self.field = None
         self.width = width
