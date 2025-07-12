@@ -57,10 +57,12 @@ class Game:
             row = []
             for x in range(self.width):
                 cell = self.field.cells[y][x]
-                new_kind = str(self.switch_cell(cell, rules))
-                if not new_kind:
-                    new_kind = str(cell)
-                kind_obj = self.kinds.kind(new_kind)
+                new_kind = self.switch_cell(cell, rules)
+                try:
+                    kind_obj = self.kinds.kind(new_kind)
+                except ValueError as e:
+                    if e.args[0] == "kind None not found":
+                        kind_obj = cell.kind
                 row.append(Cell(kind_obj, x, y))
             new_cells.append(row)
         self.field.cells = new_cells

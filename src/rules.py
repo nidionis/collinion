@@ -14,7 +14,6 @@ def rules(cell):
     elif cell == "alive": # and...
         if cell.around("alive") < 2 or cell.around("alive") > 3:
             return "dead"
-    return cell
 
 #def rules(cell):
 #    if cell == "dead" and cell.around("alive") == 3:
