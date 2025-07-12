@@ -46,4 +46,12 @@ class CellProxy:
                     count += 1
         return count
 
-
+    def side_up(self, kind):
+        """Count neighbors of a specific kind on the top side"""
+        count = 0
+        neighbors = self.field.neighbours(self.x, self.y)
+        if self.y != 0:
+            for cell in neighbors[0]:
+                if kind == cell:
+                    count += 1
+        return count
