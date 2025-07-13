@@ -7,7 +7,6 @@ from cell import CellProxy, Cell
 from rules import setup, rules
 
 class Game:
-    """Game class that manages the cellular automaton simulation"""
     def __init__(self, width=None, height=None, zoom=10):
         pygame.init()
         self.zoom = zoom # default nb pixels per cell
@@ -22,7 +21,6 @@ class Game:
         self.display = None
         
     def setup(self):
-        """Initialize the field with the registered kinds"""
         if not self.field:
             self.field = Field(self.kinds, self.width, self.height)
             self.field.rand()
@@ -31,19 +29,16 @@ class Game:
         return self
         
     def add_kind(self, name, color, hotness=1):
-        """Register a new cell kind"""
         self.kinds.add(name, color, hotness)
         return self
         
     def randomize(self):
-        """Fill the field with random cell kinds"""
         if not self.field:
             self.field = Field(self.kinds, self.width, self.height)
         self.field.rand()
         return self
         
     def run(self, rules):
-        """Start the simulation with the given rules"""
         self.setup()
         self.display.run(rules)
 

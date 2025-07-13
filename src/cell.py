@@ -37,7 +37,6 @@ class CellProxy:
         return self.kind
 
     def around(self, kind):
-        """Count neighbors of a specific kind"""
         count = 0
         neighbors = self.field.neighbours(self.x, self.y)
         for y in range(len(neighbors)):
@@ -47,7 +46,6 @@ class CellProxy:
         return count
 
     def side_up(self, kind):
-        """Count neighbors of a specific kind on the top side"""
         count = 0
         neighbors = self.field.neighbours(self.x, self.y)
         if self.y != 0:
@@ -55,3 +53,62 @@ class CellProxy:
                 if kind == cell:
                     count += 1
         return count
+
+    def side_down(self, kind):
+        count = 0
+        neighbors = self.field.neighbours(self.x, self.y)
+        if self.y != len(neighbors) - 1:
+            for cell in neighbors[-1]:
+                if kind == cell:
+                    count += 1
+        return count
+
+    def side_left(self, kind):
+        count = 0
+        neighbors = self.field.neighbours(self.x, self.y)
+        if self.x != 0:
+            for cell in neighbors[:, 0]:
+                if kind == cell:
+                    count += 1
+        return count
+
+    def side_right(self, kind):
+        count = 0
+        neighbors = self.field.neighbours(self.x, self.y)
+        if self.x != len(neighbors[0]) - 1:
+            for cell in neighbors[:, -1]:
+                if kind == cell:
+                    count += 1
+        return count
+
+    def cell_up(self, kind):
+        if self.y != 0:
+            return self.kind == self.field.cells[self.y-1][self.x]
+
+    def cell_down(self, kind):
+        if self.y != len(self.field.cells) - 1:
+            return kind == self.field.cells[self.y+1][self.x]
+
+    def cell_right(self, kind):
+        if self.x != len(self.field.cells[0]) - 1:
+            return kind == self.field.cells[self.y][self.x+1]
+
+    def cell_left(self, kind):
+        if self.x != 0:
+            return kind == self.field.cells[self.y][self.x-1]
+
+    def cell_up_right(self, kind):
+        if self.x != len(self.field.cells[0]) - 1 and self.y != 0:
+            return kind == self.field.cells[self.y-1][self.x+1]
+
+    def cell_up_left(self, kind):
+        if self.x != 0 and self.y != 0:
+            return kind == self.field.cells[self.y-1][self.x-1]
+
+    def cell_down_right(self, kind):
+        if self.x != len(self.field.cells[0]) - 1 and self.y != len(self.field.cells) - 1:
+            return kind == self.field.cells[self.y+1][self.x+1]
+
+    def cell_down_left(self, kind):
+        if self.x != 0 and self.y != len(self.field.cells) - 1:
+            return kind == self.field.cells[self.y+1][self.x-1]
