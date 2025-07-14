@@ -1,0 +1,40 @@
+# ~/.bashrc: executed by bash(1) for non-login shells.
+# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
+# for examples
+
+# If not running interactively, don't do anything
+case $- in
+    *i*) ;;
+      *) return;;
+esac
+
+
+set -o vi
+
+# Définir les couleurs
+GREEN='\[\e[32m\]'
+YELLOW='\[\e[33m\]'
+ORANGE='\[\e[38;5;214m\]'  # Il n'y a pas de code direct pour l'orange, mais ce code ANSI s'en approche
+RED='\[\e[31m\]'
+NO_COLOR='\[\e[0m\]'  # Réinitialiser la couleur
+# Définir PS1 avec les couleurs
+#export PS1="\n\u@\H-\D{%y%m%d}-\t-\w\n=>"
+# Couleurs
+USER_COLOR="\[\e[1;32m\]"   # Vert clair pour l'utilisateur
+HOST_COLOR="\[\e[1;34m\]"   # Bleu clair pour l'hôte
+DATE_COLOR="\[\e[1;33m\]"   # Jaune pour la date
+TIME_COLOR="\[\e[1;36m\]"   # Cyan pour l'heure
+DIR_COLOR="\[\e[1;35m\]"    # Magenta clair pour le répertoire
+RESET_COLOR="$NO_COLOR"
+
+export GIT_EDITOR=vim
+
+PS1="\n${DATE_COLOR}\D{%y%m%d}${RESET_COLOR}-${TIME_COLOR}\t${RESET_COLOR}-${USER_COLOR}\u${RESET_COLOR}@${HOST_COLOR}\H${RESET_COLOR}-${DIR_COLOR}\w${RESET_COLOR}-${RED}${BRANCH}${RESET_COLOR}\n=> "
+
+PATH="$PATH:/usr/sbin/"
+
+export LESS=-R
+
+
+bind -f  ~/.inputrc
+
