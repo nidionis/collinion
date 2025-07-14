@@ -4,13 +4,26 @@ from field import Field
 from kinds import Kinds
 from display import Display
 from cell import CellProxy, Cell
-from rules import setup, rules
+
+import importlib
+import inspect
+
+
 
 class Game:
-    def __init__(self, width=None, height=None, zoom=10):
+
+    def __init__(self, width=None, height=None, zoom=10, f_rules="rules"):
         pygame.init()
-        self.zoom = zoom # default nb pixels per cell
         self.kinds = Kinds()
+
+        mod = importlib.import_module(f_rules)
+        self.fts_rules = [
+            obj
+            for name, obj in inspect.getmembers(mod, inspect.isfunction)
+            if not "__" in name and name != "setup"
+        ]
+
+        self.zoom = zoom # default nb pixels per cell
         self.field = None
         self.width = width
         self.height = height
@@ -19,7 +32,7 @@ class Game:
         if not self.height:
             self.height = pygame.display.Info().current_h // self.zoom
         self.display = None
-        
+
     def setup(self):
         if not self.field:
             self.field = Field(self.kinds, self.width, self.height)
@@ -27,7 +40,11 @@ class Game:
         if not self.display:
             self.display = Display(self)
         return self
-        
+
+    def run(self):
+        #self.setup()
+        self.display.run()
+
     def add_kind(self, name, color, hotness=1):
         self.kinds.add(name, color, hotness)
         return self
@@ -37,10 +54,6 @@ class Game:
             self.field = Field(self.kinds, self.width, self.height)
         self.field.rand()
         return self
-        
-    def run(self, rules):
-        self.setup()
-        self.display.run(rules)
 
     def switch_cell(self, cell, rules):
         cell_proxy = CellProxy(cell, self.field)
@@ -62,3 +75,11 @@ class Game:
             new_cells.append(row)
         self.field.cells = new_cells
         #return new_cells
+
+    def switch_all(self):
+        for fts_rules in self.fts_rules:
+            try:
+                self.switch(fts_rules)
+            except UnboundLocalError as e:
+                print("error at", fts_rules)
+                print(e)

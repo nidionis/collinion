@@ -34,7 +34,7 @@ class CellProxy:
         return str(self.kind)
 
     def __repr__(self):
-        return self.kind
+        return str(self.kind)
 
     def around(self, kind):
         count = 0
@@ -81,34 +81,34 @@ class CellProxy:
                     count += 1
         return count
 
-    def cell_up(self, kind):
+    def up(self, kind):
         if self.y != 0:
-            return self.kind == self.field.cells[self.y-1][self.x]
+            return kind == self.field.cells[self.y-1][self.x]
 
-    def cell_down(self, kind):
+    def down(self, kind):
         if self.y != len(self.field.cells) - 1:
             return kind == self.field.cells[self.y+1][self.x]
 
-    def cell_right(self, kind):
+    def right(self, kind):
         if self.x != len(self.field.cells[0]) - 1:
             return kind == self.field.cells[self.y][self.x+1]
 
-    def cell_left(self, kind):
+    def left(self, kind):
         if self.x != 0:
             return kind == self.field.cells[self.y][self.x-1]
 
-    def cell_up_right(self, kind):
+    def up_right(self, kind):
         if self.x != len(self.field.cells[0]) - 1 and self.y != 0:
             return kind == self.field.cells[self.y-1][self.x+1]
 
-    def cell_up_left(self, kind):
+    def up_left(self, kind):
         if self.x != 0 and self.y != 0:
             return kind == self.field.cells[self.y-1][self.x-1]
 
-    def cell_down_right(self, kind):
+    def down_right(self, kind):
         if self.x != len(self.field.cells[0]) - 1 and self.y != len(self.field.cells) - 1:
             return kind == self.field.cells[self.y+1][self.x+1]
 
-    def cell_down_left(self, kind):
+    def down_left(self, kind):
         if self.x != 0 and self.y != len(self.field.cells) - 1:
             return kind == self.field.cells[self.y+1][self.x-1]

@@ -1,5 +1,6 @@
 import pygame
 import sys
+import rules
 
 
 class Display:
@@ -53,7 +54,7 @@ class Display:
                 )
         pygame.display.flip()
 
-    def run(self, rules):
+    def run(self):
         clock = pygame.time.Clock()
         running = True
         while running:
@@ -71,7 +72,7 @@ class Display:
                 if keys[pygame.K_DOWN] and self.frame_rate > 0.5:
                     self.frame_rate /= 1.2
                     continue
-            self.game.switch(rules)
+            self.game.switch_all()
             self.render()
             clock.tick(self.frame_rate)
         pygame.quit()
