@@ -1,4 +1,5 @@
 # welcome
+# A line starting by # is a comment (not executed)
 
 def setup(game):
     game.add_kind("dead", "black", hotness=1)
@@ -47,7 +48,6 @@ def hello_world(cell):
 # in ALPHABETICAL ORDER
 #
 # uncomment next function to implement gravity
-# (and run it)
 
 # def a_gravity(cell):
 #     if cell.up("alive") and cell == "dead":

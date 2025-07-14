@@ -72,7 +72,7 @@ class Display:
                 if keys[pygame.K_DOWN] and self.frame_rate > 0.5:
                     self.frame_rate /= 1.2
                     continue
-                if keys[pygame.K_SPACE] or event.type == pygame.K_q:
+                if  keys[pygame.K_q] or keys[pygame.K_SPACE] or keys[pygame.K_RETURN]:
                     running = False
             self.game.switch_all()
             self.render()
