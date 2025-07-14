@@ -1,4 +1,4 @@
-A cellular automaton/simulator/generator
+# A cellular automaton/simulator/generator
 
 Make your own fancy game of life
 Implement a gravity
@@ -13,11 +13,11 @@ Inspired by Dimitri Collignon, Here some of his (musical) work:
 
 at least running in a terminal:
 
-  python3 run.py
+ - python3 run.py
   
 can be satisfying
 
-ADVERTISEMENT: Modifying rules.py is adictive
+* ADVERTISEMENT: Modifying rules.py is adictive *
 
 Don't forget you have a real life
 
