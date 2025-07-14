@@ -24,5 +24,5 @@ if __name__ == "__main__":
     for file in args.files:
         with open(file, 'r') as src, open(FILE_INTERPRETED, 'a') as dest:
             dest.write(src.read() + '\n')
-    os.system(f"{sys.executable} src/main.py")
+    os.system(f"{sys.executable} utils/src/main.py")
 
