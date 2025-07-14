@@ -72,6 +72,8 @@ class Display:
                 if keys[pygame.K_DOWN] and self.frame_rate > 0.5:
                     self.frame_rate /= 1.2
                     continue
+                if keys[pygame.K_SPACE] or event.type == pygame.K_q:
+                    running = False
             self.game.switch_all()
             self.render()
             clock.tick(self.frame_rate)

@@ -29,7 +29,7 @@ def setup(game):
 
 def hello_world(cell):
     if cell.around("alive") == 3:
-        return "zombie"
+        return "alive"
     if cell.around("alive") < 2 or cell.around("alive") > 3:
         return "dead"
 

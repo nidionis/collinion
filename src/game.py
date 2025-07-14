@@ -78,8 +78,4 @@ class Game:
 
     def switch_all(self):
         for fts_rules in self.fts_rules:
-            try:
-                self.switch(fts_rules)
-            except UnboundLocalError as e:
-                print("error at", fts_rules)
-                print(e)
+            self.switch(fts_rules)
