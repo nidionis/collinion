@@ -13,13 +13,11 @@ Inspired by Dimitri Collignon, Here some of his (musical) work:
 
 at least running in a terminal:
 
- - python3 run.py
+    python3 run.py
   
 can be satisfying
 
-* ADVERTISEMENT: Modifying rules.py is adictive *
-
-Don't forget you have a real life
+### ADVERTISEMENT: Modifying rules.py is adictive
 
 Next features for a V1.0:
 - better managment of borders
