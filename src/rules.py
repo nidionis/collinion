@@ -1,3 +1,4 @@
+
 # welcome in this
 def setup(game):
     game.add_kind("dead", "black", hotness=1)
@@ -24,11 +25,16 @@ def setup(game):
 #   - down_right("type")
 #   - down_left("type")
 
-def rules(cell):
+def a(cell):
     if cell.around("alive") == 3:
-        return "alive"
+        return "zombie"
     if cell.around("alive") < 2 or cell.around("alive") > 3:
         return "dead"
+
+# now ./run it !
+# maybe some confing available in the config folder
+
+######################################################################
 
 # excepting functions:
 #   - "setup"
@@ -37,12 +43,10 @@ def rules(cell):
 # will be applied to the matrix
 # in ALPHABETICAL ORDER
 #
-# uncomment to implement gravity
-def gravity(cell):
-    if cell.up("alive") and cell == "dead":
-        return "alive"
-    if cell == "alive"  and cell.down("dead"):
-        return "dead"
+# uncomment next function to implement gravity
 
-# now ./run it !
-# maybe some confing available in the config folder
+# def a_gravity(cell):
+#     if cell.up("alive") and cell == "dead":
+#         return "alive"
+#     if cell == "alive"  and cell.down("dead"):
+#         return "dead"
