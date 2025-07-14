@@ -1,9 +1,15 @@
-# A cellular automaton/simulator/generator
+# <img width="256" height="128" alt="logo colinion" src="https://github.com/user-attachments/assets/fb70a88b-e3fc-4101-9803-8ad06dd9d819" />     Collinion
+-   ## A cellular automaton/simulator/generator
 
-Make your own fancy game of life
-Implement a gravity
-Make grass from earth and whater ? who knows ?
-Good luck to make a landscape ;)
+  Make your own fancy game of life
+  
+  Implement a gravity
+  
+  Make grass from earth and whater ? who knows ?
+  
+  Good luck to make a landscape ;)
+  
+
 
 Inspired by Dimitri Collignon, Here some of his (musical) work:
   - KanDi https://www.youtube.com/watch?v=dtM9G354OAw🚡
