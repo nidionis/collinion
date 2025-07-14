@@ -19,7 +19,7 @@ argparser.add_argument("-f", "--files", nargs='*', type=str, default=["rules.py"
 args = argparser.parse_args()
 
 if __name__ == "__main__":
-    FILE_INTERPRETED = "src/rules.py"
+    FILE_INTERPRETED = "utils/src/rules.py"
     
     for file in args.files:
         with open(file, 'r') as src, open(FILE_INTERPRETED, 'a') as dest:
