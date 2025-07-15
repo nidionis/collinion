@@ -22,7 +22,7 @@ if __name__ == "__main__":
     FILE_INTERPRETED = "utils/src/rules.py"
     
     for file in args.files:
-        with open(file, 'r') as src, open(FILE_INTERPRETED, 'a') as dest:
+        with open(file, 'r') as src, open(FILE_INTERPRETED, 'w') as dest:
             dest.write(src.read() + '\n')
     os.system(f"{sys.executable} utils/src/main.py")
 
