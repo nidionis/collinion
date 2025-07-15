@@ -25,9 +25,10 @@ can be satisfying
 
 ### ADVERTISEMENT: Modifying rules.py is adictive
 
+V 0.5.ICommitOften
 Next features for a V1.0:
 - better managment of borders
 - zoom / speed (there is something already using right/left arrows)
 - a tutorial
 
-Let me know if it does not compile straight away on your system please
+Let me know if you need more than a minute to install and play
