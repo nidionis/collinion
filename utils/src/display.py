@@ -26,9 +26,6 @@ class Display:
         self.frame_rate = 60
         self.colors = {}
 
-    def get_cells(self):
-        return self.game.field.cells
-
     def set_cells(self, cells):
         self.game.field.cells = cells
 
@@ -42,16 +39,15 @@ class Display:
 
     def render(self):
         self.window.fill((0, 0, 0))
-        for row in self.get_cells():
-            for cell in row:
-                color_rgb = self.kinds.color(cell)
+        for cell in self.game:
+            color_rgb = self.kinds.color(cell)
 
-                pygame.draw.rect(
-                    self.window, 
-                    color_rgb, 
-                    (cell.x * self.cell_size, cell.y * self.cell_size,
-                            self.cell_size, self.cell_size)
-                )
+            pygame.draw.rect(
+                self.window,
+                color_rgb,
+                (cell.x * self.cell_size, cell.y * self.cell_size,
+                 self.cell_size, self.cell_size)
+            )
         pygame.display.flip()
 
     def run(self):
