@@ -49,8 +49,8 @@ def hello_world(cell):
 #
 # uncomment next function to implement gravity
 
-# def a_gravity(cell):
-#     if cell.up("alive") and cell == "dead":
-#         return "alive"
-#     if cell == "alive"  and cell.down("dead"):
-#         return "dead"
+#def a_gravity(cell):
+#    if cell.up("alive") and cell == "dead":
+#        return "alive"
+#    if cell == "alive"  and cell.down("dead"):
+#        return "dead"
