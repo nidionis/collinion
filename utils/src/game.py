@@ -8,8 +8,6 @@ from cell import CellProxy, Cell
 import importlib
 import inspect
 
-
-
 class Game:
 
     def __init__(self, width=None, height=None, zoom=10, f_rules="rules"):

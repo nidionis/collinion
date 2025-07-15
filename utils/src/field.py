@@ -48,12 +48,3 @@ class Field:
                         row.append(self.cells[i_y][i_x])
             ls_neighbours.append(row)
         return ls_neighbours
-
-#def neighbours(self, x: int, y: int):
-#    """Return the eight neighbouring cells of (x, y) as a flat list."""
-#    return [
-#        self.cells[j][i]
-#        for j in range(y - 1, y + 2)
-#        for i in range(x - 1, x + 2)
-#        if not self.is_border(j, i) and (i, j) != (x, y)
-#    ]
