@@ -6,7 +6,7 @@ class Field:
     def __init__(self, kinds: Kinds, *size):
         self.width , self.height = size
         self.kinds = kinds
-        self.cells = []
+        self.cells = [[0 for x in range(size[0])] for y in range(size[1])]
         self.init()
 
     def __iter__(self):
@@ -22,12 +22,9 @@ class Field:
 
     def rand(self):
         for y in range(self.height):
-            row = []
             for x in range(self.width):
                 random_kind = self.kinds.rand()
-                row.append(Cell(random_kind, x, y))
-            self.cells.append(row)
-        return self
+                self.set(Cell(random_kind, x, y), x, y)
 
     def is_border(self, y, x):
         if x <= 0 or x >= self.width - 1:
