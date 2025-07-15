@@ -1,15 +1,25 @@
 # welcome
 # A line starting by # is a comment (not executed)
 
+# define your kinds
 def setup(game):
-    game.add_kind("dead", "black", hotness=1)
-    game.add_kind("alive", "white", hotness=2)
-    #game.add_kind("zombie", "green")
-    #game.add_kind("water", "blue",)
+    game.add_kind("dead", "black", hotness=10)
+    game.add_kind("alive", "white", hotness=15)
+    game.add_kind("zombie", "green")
+    game.add_kind("water", "blue")
+    return game
     # Note:
     # an hotness N gives N more chance to set this kind of
     # cell than a default one when randomized
-    return game #and leave this line
+
+def hello_world(cell):
+    if cell.around("alive") == 3:
+        return "alive"
+    if cell.around("alive") < 2 or cell.around("alive") >= 4:
+        return "dead"
+
+# ./run
+# it in your terminal !
 
 # Avalaible methods returning a neighbors count:
 #   - around("type")
@@ -26,27 +36,12 @@ def setup(game):
 #   - down_right("type")
 #   - down_left("type")
 
-# Some config in the confi folder
-
-def hello_world(cell):
-    if cell.around("alive") == 3:
-        return "alive"
-    if cell.around("alive") < 2 or cell.around("alive") > 3:
-        return "dead"
-
-# now
-# ./run
-# it in your terminal !
-
 ######################################################################
 
-# excepting functions:
-#   - "setup"
-#   - or using _ in their names
+# excepting function "setup"
 # all functions
 # will be applied to the matrix
 # in ALPHABETICAL ORDER
-#
 # uncomment next function to implement gravity
 
 # def a_gravity(cell):
@@ -54,3 +49,6 @@ def hello_world(cell):
 #         return "alive"
 #     if cell == "alive"  and cell.down("dead"):
 #         return "dead"
+
+# the matrix is modified by a_gravit BEFORE due to alphabetial order of functions
+# (and that matters)

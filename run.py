@@ -6,16 +6,16 @@ import sys
 import platform
 
 HELP_MSG = """
-    At least run
-        ./run
-    in your terminal
-    or open the rules.py file
-    
+    At least run\n
+        ./run\n
+    in your terminal\n
+    or open the rules.py file\n
+ 
     Quit pressing q
 """
 
-argparser = argparse.ArgumentParser()
-argparser.add_argument("-f", "--files", nargs='*', type=str, default=["rules.py"], help="rules file(s)")
+argparser = argparse.ArgumentParser(description=HELP_MSG)
+argparser.add_argument("-f", "--files", nargs='*', type=str, default=["rules.py"], help="can run from several files")
 args = argparser.parse_args()
 
 if __name__ == "__main__":

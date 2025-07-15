@@ -8,6 +8,18 @@ class Field:
         self.kinds = kinds
         self.cells = []
 
+    def __iter__(self):
+        return iter(self.cells)
+
+    def init(self, map=None):
+        for y in range(self.height):
+            row = []
+            for x in range(self.width):
+                random_kind = self.kinds.rand()
+                row.append(Cell(random_kind, x, y))
+            self.cells.append(row)
+        return self
+
     def rand(self):
         for y in range(self.height):
             row = []

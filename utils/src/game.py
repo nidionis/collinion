@@ -33,6 +33,9 @@ class Game:
             self.height = pygame.display.Info().current_h // self.zoom
         self.display = None
 
+    def __iter__(self):
+        return iter(self.field)
+
     def setup(self):
         if not self.field:
             self.field = Field(self.kinds, self.width, self.height)
