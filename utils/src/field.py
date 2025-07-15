@@ -7,18 +7,18 @@ class Field:
         self.width , self.height = size
         self.kinds = kinds
         self.cells = []
+        self.init()
 
     def __iter__(self):
-        return iter(self.cells)
+        for y in range(1, self.height - 1):  # rows inside the border
+            for x in range(1, self.width - 1):  # columns inside the border
+                yield self.cells[y][x]  # or: yield sel
 
     def init(self, map=None):
-        for y in range(self.height):
-            row = []
-            for x in range(self.width):
-                random_kind = self.kinds.rand()
-                row.append(Cell(random_kind, x, y))
-            self.cells.append(row)
-        return self
+        self.rand()
+
+    def set(self, kind, x, y):
+        self.cells[y][x] = kind
 
     def rand(self):
         for y in range(self.height):

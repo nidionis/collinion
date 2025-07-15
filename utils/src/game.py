@@ -25,6 +25,7 @@ class Game:
 
         self.zoom = zoom # default nb pixels per cell
         self.field = None
+        self.next_field = None
         self.width = width
         self.height = height
         if not self.width:
@@ -60,24 +61,19 @@ class Game:
 
     def switch_cell(self, cell, rules):
         cell_proxy = CellProxy(cell, self.field)
-        return str(rules(cell_proxy))
+        new_kind = str(rules(cell_proxy))
+        try:
+            kind_obj = self.kinds.kind(new_kind)
+        except ValueError as e:
+            if e.args[0] == "kind None not found":
+                kind_obj = cell.kind
+        self.next_field.set(Cell(kind_obj, cell.x, cell.y), cell.x, cell.y)
 
     def switch(self, rules):
-        new_cells = []
-        for y in range(self.height):
-            row = []
-            for x in range(self.width):
-                cell = self.field.cells[y][x]
-                new_kind = self.switch_cell(cell, rules)
-                try:
-                    kind_obj = self.kinds.kind(new_kind)
-                except ValueError as e:
-                    if e.args[0] == "kind None not found":
-                        kind_obj = cell.kind
-                row.append(Cell(kind_obj, x, y))
-            new_cells.append(row)
-        self.field.cells = new_cells
-        #return new_cells
+        self.next_field = Field(self.kinds, self.width, self.height)
+        for cell in self:
+            self.switch_cell(cell, rules)
+        self.field = self.next_field
 
     def switch_all(self):
         for fts_rules in self.fts_rules:
