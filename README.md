@@ -5,7 +5,7 @@
   
   Implement a gravity
   
-  Make grass from earth and whater ? who knows ?
+  Make grass from earth and water? Who knows?
   
   Good luck to make a landscape ;)
   
