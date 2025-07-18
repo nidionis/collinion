@@ -26,18 +26,20 @@ def hello_world(cell):
 
 # Avalaible methods returning a neighbors count:
 #   - around("type")
+#
 #   - side_up("type")
 #   - side_down("type")
 #   - side_left("type")
 #   - side_right("type")
-#   - up("type")
-#   - down("type")
-#   - right("type")
-#   - left("type")
-#   - up_right("type")
-#   - up_left("type")
-#   - down_right("type")
-#   - down_left("type")
+#   keywords:
+#   - up()
+#   - down()
+#   - right()
+#   - left()
+#   - up_right()
+#   - up_left()
+#   - down_right()
+#   - down_left()
 
 ######################################################################
 
@@ -45,12 +47,11 @@ def hello_world(cell):
 # all functions
 # will be applied to the matrix
 # in ALPHABETICAL ORDER                    
-# uncomment next function to implement gravity
 
 def a_gravity(cell):
     if cell == "empty":
         return cell.up()
-    if cell.down() == "empty":
+    if cell.down("empty"):
         return "empty"
 
 # the matrix is modified by a_gravit BEFORE due to alphabetial order of functions
