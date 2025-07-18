@@ -1,5 +1,5 @@
 # <img width="256" height="128" alt="logo colinion" src="https://github.com/user-attachments/assets/fb70a88b-e3fc-4101-9803-8ad06dd9d819" />     Collinion
--   ## STILL NOT REALLY WORKING, sorry for the mess
+
  cellular automaton/simulator/generator
 
   Make your own fancy game of life
