@@ -81,13 +81,17 @@ class CellProxy:
                     count += 1
         return count
 
-    def up(self, kind):
-        if self.y != 0:
+    def up(self, kind=None):
+        if kind:
             return kind == self.field.cells[self.y-1][self.x]
+        else:
+            return self.field.cells[self.y-1][self.x]
 
-    def down(self, kind):
-        if self.y != len(self.field.cells) - 1:
+    def down(self, kind=None):
+        if kind:
             return kind == self.field.cells[self.y+1][self.x]
+        else:
+            return self.field.cells[self.y+1][self.x]
 
     def right(self, kind):
         if self.x != len(self.field.cells[0]) - 1:

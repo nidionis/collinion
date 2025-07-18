@@ -3,7 +3,7 @@
 
 # define your kinds
 def setup(game):
-    game.add_kind("dead", "black", hotness=10)
+    game.add_kind("empty", "black", hotness=10)
     game.add_kind("alive", "white", hotness=15)
     game.add_kind("zombie", "green")
     game.add_kind("water", "blue")
@@ -19,7 +19,7 @@ def hello_world(cell):
         if cell.around("alive") < 2 or cell.around("alive") >= 4:
             return "zombie"
     if cell == "zombie":
-        return "dead"
+        return "empty"
 
 # ./run
 # it in your terminal !
@@ -44,14 +44,14 @@ def hello_world(cell):
 # excepting function "setup"
 # all functions
 # will be applied to the matrix
-# in ALPHABETICAL ORDER
+# in ALPHABETICAL ORDER                    
 # uncomment next function to implement gravity
 
-#def a_gravity(cell):
-#    if cell.up("alive") and cell == "dead":
-#        return "alive"
-#    if cell == "alive"  and cell.down("dead"):
-#        return "dead"
+def a_gravity(cell):
+    if cell == "empty":
+        return cell.up()
+    if cell.down() == "empty":
+        return "empty"
 
 # the matrix is modified by a_gravit BEFORE due to alphabetial order of functions
 # (and that matters)
