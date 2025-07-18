@@ -15,7 +15,10 @@ def setup(game):
 def hello_world(cell):
     if cell.around("alive") == 3:
         return "alive"
-    if cell.around("alive") < 2 or cell.around("alive") >= 4:
+    if cell == "alive":
+        if cell.around("alive") < 2 or cell.around("alive") >= 4:
+            return "zombie"
+    if cell == "zombie":
         return "dead"
 
 # ./run
@@ -41,7 +44,7 @@ def hello_world(cell):
 # excepting function "setup"
 # all functions
 # will be applied to the matrix
-# in ALPHABETICAL ORDER
+# in ALPHABETICAL ORDER                    
 # uncomment next function to implement gravity
 
 #def a_gravity(cell):

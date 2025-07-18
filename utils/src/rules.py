@@ -15,7 +15,10 @@ def setup(game):
 def hello_world(cell):
     if cell.around("alive") == 3:
         return "alive"
-    if cell.around("alive") < 2 or cell.around("alive") >= 4:
+    if cell == "alive":
+        if cell.around("alive") < 2 or cell.around("alive") >= 4:
+            return "zombie"
+    if cell == "zombie":
         return "dead"
 
 # ./run
