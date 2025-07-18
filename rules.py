@@ -31,6 +31,7 @@ def hello_world(cell):
 #   - side_down("type")
 #   - side_left("type")
 #   - side_right("type")
+
 #   keywords:
 #   - up()
 #   - down()
@@ -40,6 +41,9 @@ def hello_world(cell):
 #   - up_left()
 #   - down_right()
 #   - down_left()
+
+# Note:
+# You are not moving cells but stransforming themself
 
 ######################################################################
 
