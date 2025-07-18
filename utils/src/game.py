@@ -12,7 +12,7 @@ class Game:
 
     def __init__(self, width=None, height=None, zoom=10, f_rules="rules"):
         pygame.init()
-        self.kinds = Kinds()
+        self.setup_kinds()
 
         mod = importlib.import_module(f_rules)
         self.fts_rules = [
@@ -35,6 +35,19 @@ class Game:
     def __iter__(self):
         return iter(self.field)
 
+    def setup_kinds(self):
+        self.kinds = Kinds()
+        self.add_kind("UP", "black", hotness=0)
+        self.add_kind("DOWN", "black", hotness=0)
+        self.add_kind("RIGHT", "black", hotness=0)
+        self.add_kind("LEFT", "black", hotness=0)
+        self.borders = {
+            "UP": self.kinds.kind("UP"),
+            "DOWN": self.kinds.kind("DOWN"),
+            "LEFT": self.kinds.kind("LEFT"),
+            "RIGHT": self.kinds.kind("RIGHT")
+        }
+
     def setup(self):
         if not self.field:
             self.field = Field(self.kinds, self.width, self.height)
@@ -50,7 +63,20 @@ class Game:
     def add_kind(self, name, color, hotness=1):
         self.kinds.add(name, color, hotness)
         return self
-        
+
+    def set_border(self, border, kind):
+        self.borders[border] = self.kinds.kind(kind)
+
+    def set_borders(self, up=None, down=None, left=None, right=None):
+        if up:
+            self.set_border("UP", up)
+        if down:
+            self.set_border("DOWN", down)
+        if left:
+            self.set_border("LEFT", left)
+        if right:
+            self.set_border("RIGHT", right)
+
     def randomize(self):
         if not self.field:
             self.field = Field(self.kinds, self.width, self.height)

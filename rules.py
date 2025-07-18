@@ -7,10 +7,16 @@ def setup(game):
     game.add_kind("alive", "white", hotness=15)
     game.add_kind("zombie", "green")
     game.add_kind("water", "blue")
-    return game
     # Note:
     # an hotness N gives N more chance to set this kind of
     # cell than a default one when randomized
+
+    #optional
+    game.set_border("UP", "water")
+    game.set_border("LEFT", "alive")
+    game.set_border("RIGHT", "alive")
+    game.set_border("DOWN", "empty")
+    return game
 
 def hello_world(cell):
     if cell.around("alive") == 3:
@@ -60,3 +66,4 @@ def a_gravity(cell):
 
 # the matrix is modified by a_gravit BEFORE due to alphabetial order of functions
 # (and that matters)
+
