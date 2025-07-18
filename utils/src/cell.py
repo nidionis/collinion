@@ -93,26 +93,38 @@ class CellProxy:
         else:
             return self.field.cells[self.y+1][self.x]
 
-    def right(self, kind):
-        if self.x != len(self.field.cells[0]) - 1:
+    def right(self, kind=None):
+        if kind:
             return kind == self.field.cells[self.y][self.x+1]
+        else:
+            return self.field.cells[self.y][self.x+1]
 
-    def left(self, kind):
-        if self.x != 0:
+    def left(self, kind=None):
+        if kind:
             return kind == self.field.cells[self.y][self.x-1]
+        else:
+            return self.field.cells[self.y][self.x-1]
 
-    def up_right(self, kind):
-        if self.x != len(self.field.cells[0]) - 1 and self.y != 0:
+    def up_right(self, kind=None):
+        if kind:
             return kind == self.field.cells[self.y-1][self.x+1]
+        else:
+            return self.field.cells[self.y-1][self.x+1]
 
-    def up_left(self, kind):
-        if self.x != 0 and self.y != 0:
+    def up_left(self, kind=None):
+        if kind:
             return kind == self.field.cells[self.y-1][self.x-1]
+        else:
+            return self.field.cells[self.y-1][self.x-1]
 
-    def down_right(self, kind):
-        if self.x != len(self.field.cells[0]) - 1 and self.y != len(self.field.cells) - 1:
+    def down_right(self, kind=None):
+        if kind:
             return kind == self.field.cells[self.y+1][self.x+1]
+        else:
+            return self.field.cells[self.y+1][self.x+1]
 
-    def down_left(self, kind):
-        if self.x != 0 and self.y != len(self.field.cells) - 1:
+    def down_left(self, kind=None):
+        if kind:
             return kind == self.field.cells[self.y+1][self.x-1]
+        else:
+            return self.field.cells[self.y+1][self.x-1]
