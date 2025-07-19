@@ -1,6 +1,7 @@
 import pygame
 import sys
 import rules
+import numpy as np
 
 
 class Display:
@@ -25,6 +26,8 @@ class Display:
 
         self.frame_rate = 60
         self.colors = {}
+        # Color cache for faster rendering
+        self.color_cache = {}
 
     def set_cells(self, cells):
         self.game.field.cells = cells
@@ -39,15 +42,32 @@ class Display:
 
     def render(self):
         self.window.fill((0, 0, 0))
+        
+        # Pre-create all rectangles in one batch
+        rects = []
+        colors = []
+        
         for cell in self.game:
-            color_rgb = self.kinds.color(cell)
-
-            pygame.draw.rect(
-                self.window,
-                color_rgb,
-                (cell.x * self.cell_size, cell.y * self.cell_size,
-                 self.cell_size, self.cell_size)
+            cell_str = str(cell)
+            if cell_str not in self.color_cache:
+                self.color_cache[cell_str] = self.kinds.color(cell)
+            
+            color_rgb = self.color_cache[cell_str]
+            rect = pygame.Rect(
+                cell.x * self.cell_size, 
+                cell.y * self.cell_size,
+                self.cell_size, 
+                self.cell_size
             )
+            rects.append(rect)
+            colors.append(color_rgb)
+        
+        # Draw all rectangles at once if possible
+        if len(rects) > 0:
+            # Use either draw.rect for each or draw multiple if available
+            for i, rect in enumerate(rects):
+                pygame.draw.rect(self.window, colors[i], rect)
+                
         pygame.display.flip()
 
     def run(self):
@@ -57,19 +77,20 @@ class Display:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
-                keys = pygame.key.get_pressed()
-                if keys[pygame.K_LEFT]:
-                    continue
-                if keys[pygame.K_RIGHT]:
-                    continue
-                if keys[pygame.K_UP] and self.frame_rate < 1000:
-                    self.frame_rate *= 1.2
-                    continue
-                if keys[pygame.K_DOWN] and self.frame_rate > 0.5:
-                    self.frame_rate /= 1.2
-                    continue
-                if  keys[pygame.K_q] or keys[pygame.K_SPACE] or keys[pygame.K_RETURN]:
-                    running = False
+            
+            keys = pygame.key.get_pressed()
+            # Fallback to the original method if cache isn't available
+            if keys[pygame.K_LEFT]:
+                pass
+            if keys[pygame.K_RIGHT]:
+                pass
+            if keys[pygame.K_UP] and self.frame_rate < 1000:
+                self.frame_rate *= 1.2
+            if keys[pygame.K_DOWN] and self.frame_rate > 0.5:
+                self.frame_rate /= 1.2
+            if keys[pygame.K_q] or keys[pygame.K_SPACE] or keys[pygame.K_RETURN]:
+                running = False
+                
             self.game.switch_all()
             self.render()
             clock.tick(self.frame_rate)
