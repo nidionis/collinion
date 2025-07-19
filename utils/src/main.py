@@ -6,7 +6,6 @@ import argparse
 if __name__ == "__main__":
     # Parse command line arguments
     parser = argparse.ArgumentParser(description="Cellular Automaton Simulation")
-    parser.add_argument("--perf", action="store_true", help="Enable performance optimizations")
     parser.add_argument("--zoom", type=int, default=10, help="Cell size in pixels")
     args = parser.parse_args()
     

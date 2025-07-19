@@ -19,14 +19,17 @@ class Display:
         self.height = self.game.height
         self.width = self.game.width
         self.kinds = self.game.kinds
-        self.set_cell_size()
+        try:
+            self.set_cell_size()
+        except ZeroDivisionError:
+            exit("Window size too small")
 
         self.window = pygame.display.set_mode((self.win_width, self.win_height))
         self.title = self.DEFAULT_TITLE
         pygame.display.set_caption(self.title)
 
         # Frame rate management
-        self.frame_rate = 30
+        self.frame_rate = 5
         self.target_frame_rate = 30
         self.max_achieved_fps = 0
         self.fps_history = [0] * 10  # Track recent FPS values

@@ -20,8 +20,7 @@ HELP_MSG = """
 
 argparser = argparse.ArgumentParser(description=HELP_MSG)
 argparser.add_argument("-f", "--files", nargs='*', type=str, default=["rules.py"], help="can run from several files")
-argparser.add_argument("--perf", action="store_true", help="Enable performance mode with optimized rendering")
-argparser.add_argument("--zoom", type=int, default=10, help="Cell size in pixels (default: 10)")
+argparser.add_argument("--zoom", type=int, default=15, help="pixel / cell")
 args = argparser.parse_args()
 
 if __name__ == "__main__":
@@ -33,8 +32,6 @@ if __name__ == "__main__":
             
     # Pass command line arguments to the simulation
     cmd = f"{sys.executable} utils/src/main.py"
-    if args.perf:
-        cmd += " --perf"
     if args.zoom:
         cmd += f" --zoom {args.zoom}"
     
