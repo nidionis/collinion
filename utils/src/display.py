@@ -24,7 +24,7 @@ class Display:
         self.title = self.DEFAULT_TITLE
         pygame.display.set_caption(self.title)
 
-        self.frame_rate = 60
+        self.frame_rate = 30
         self.colors = {}
         # Color cache for faster rendering
         self.color_cache = {}
@@ -86,7 +86,7 @@ class Display:
                 pass
             if keys[pygame.K_UP] and self.frame_rate < 1000:
                 self.frame_rate *= 1.2
-            if keys[pygame.K_DOWN] and self.frame_rate > 0.5:
+            if keys[pygame.K_DOWN] and self.frame_rate > 0.3:
                 self.frame_rate /= 1.2
             if keys[pygame.K_q] or keys[pygame.K_SPACE] or keys[pygame.K_RETURN]:
                 running = False
