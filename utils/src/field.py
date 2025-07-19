@@ -16,7 +16,7 @@ class Field:
         self.kinds = kinds
         self.setup_kinds()
         self.cells = [ [ 0 for x in range(size[0]) ] for y in range(size[1]) ]
-        self.surround_field()
+        #self.surround_field()
         self.rand()
 
     def __iter__(self):

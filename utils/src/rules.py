@@ -13,9 +13,6 @@ def setup(game):
 
     #optional
     game.set_border("UP", "water") # make rain if gravity
-    #game.set_border("LEFT", "alive")
-    #game.set_border("RIGHT", "alive")
-    #game.set_border("DOWN", "empty")
 
 def hello_world(cell):
     if cell.around("alive") == 3:
@@ -27,7 +24,8 @@ def hello_world(cell):
 # ./run
 # it in your terminal !
 
-# Avalaible methods returning a neighbors count:
+# Avalaible methods:
+
 #   - around("type")
 #
 #   - side_up("type")
@@ -35,15 +33,14 @@ def hello_world(cell):
 #   - side_left("type")
 #   - side_right("type")
 
-#   keywords:
-#   - up()
-#   - down()
-#   - right()
-#   - left()
-#   - up_right()
-#   - up_left()
-#   - down_right()
-#   - down_left()
+#   - up() or up("type")
+#   - down() or down("type")
+#   - right() or right("type")
+#   - left() or left("type")
+#   - up_right() or up_right("type")
+#   - up_left() or up_left("type")
+#   - down_right() or down_right("type")
+#   - down_left() or down_left("type")
 
 # Note:
 # You are not moving cells but stransforming themself
