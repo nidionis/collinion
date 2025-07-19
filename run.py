@@ -12,8 +12,9 @@ HELP_MSG = """
     or open the rules.py file\n
  
     Controls:
-    - UP/DOWN: Adjust simulation speed
-    - F: Toggle FPS display
+    - UP/DOWN: Adjust simulation speed (auto-detects maximum)
+    - P or F: Toggle performance display
+    - R: Reset to default speed
     - Q/SPACE/RETURN: Quit
 """
 

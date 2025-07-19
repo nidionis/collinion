@@ -10,7 +10,12 @@ if __name__ == "__main__":
     parser.add_argument("--zoom", type=int, default=10, help="Cell size in pixels")
     args = parser.parse_args()
     
-    print("Controls: UP/DOWN to adjust speed, F to toggle FPS, Q to quit")
+    print("""Controls:
+    - UP/DOWN: Adjust simulation speed (auto-detects maximum speed)
+    - P or F: Toggle performance display
+    - R: Reset to default speed
+    - Q/SPACE/RETURN: Quit
+    """)
     
     # Create game with command line options
     game = Game(zoom=args.zoom)
