@@ -8,6 +8,7 @@ class Cell:
         self.x, self.y = pos
         self.kind = kind
         self.field = field
+        self.cache = {}  # Add cache for performance
 
     def __str__(self):
         return str(self.kind)
@@ -19,12 +20,15 @@ class Cell:
         return str(self) == str(other)
 
     def update(self, cell=None, field=None):
+        """Update this cell's properties from another cell without creating a new object"""
         if cell:
             self.x = cell.x
             self.y = cell.y
             self.kind = cell.kind
         if field is not None:
             self.field = field
+        # Clear cache as properties have changed
+        self.cache = {}
         return self
 
     def rgb(self):

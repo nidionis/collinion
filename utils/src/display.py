@@ -2,6 +2,8 @@ import pygame
 import sys
 import rules
 import numpy as np
+import time
+import time
 
 
 class Display:
@@ -28,6 +30,26 @@ class Display:
         self.colors = {}
         # Color cache for faster rendering
         self.color_cache = {}
+        
+        # Create performance optimization surfaces
+        self.cell_surface = pygame.Surface((self.win_width, self.win_height))
+        
+        # Performance monitoring
+        self.fps_font = pygame.font.Font(None, 36)
+        self.show_fps = True
+        self.last_fps = 0
+        self.render_time = 0
+        self.update_time = 0
+        
+        # Create a cell buffer surface for faster rendering
+        self.cell_surface = pygame.Surface((self.win_width, self.win_height))
+        self.fps_font = pygame.font.Font(None, 36)
+        self.show_fps = True
+        self.last_fps = 0
+        
+        # Performance tracking
+        self.render_time = 0
+        self.update_time = 0
 
     def set_cells(self, cells):
         self.game.field.cells = cells
@@ -41,45 +63,50 @@ class Display:
             self.cell_size = self.win_height // self.height
 
     def render(self):
+        start_time = time.time()
+        
+        # Clear both surfaces
         self.window.fill((0, 0, 0))
+        self.cell_surface.fill((0, 0, 0))
         
-        # Pre-create all rectangles in one batch
-        rects = []
-        colors = []
-        
+        # Draw all cells on the buffer surface
         for cell in self.game:
             cell_str = str(cell)
             if cell_str not in self.color_cache:
                 self.color_cache[cell_str] = self.kinds.color(cell)
             
             color_rgb = self.color_cache[cell_str]
-            rect = pygame.Rect(
-                cell.x * self.cell_size, 
-                cell.y * self.cell_size,
-                self.cell_size, 
-                self.cell_size
+            pygame.draw.rect(
+                self.cell_surface, 
+                color_rgb, 
+                (cell.x * self.cell_size, cell.y * self.cell_size,
+                 self.cell_size, self.cell_size)
             )
-            rects.append(rect)
-            colors.append(color_rgb)
         
-        # Draw all rectangles at once if possible
-        if len(rects) > 0:
-            # Use either draw.rect for each or draw multiple if available
-            for i, rect in enumerate(rects):
-                pygame.draw.rect(self.window, colors[i], rect)
-                
+        # Blit the entire cell surface at once
+        self.window.blit(self.cell_surface, (0, 0))
+        
+        # Display FPS if enabled
+        if self.show_fps:
+            fps_text = self.fps_font.render(f"FPS: {self.last_fps:.1f}", True, (255, 255, 255))
+            perf_text = self.fps_font.render(f"Render: {self.render_time*1000:.1f}ms Update: {self.update_time*1000:.1f}ms", True, (255, 255, 255))
+            self.window.blit(fps_text, (10, 10))
+            self.window.blit(perf_text, (10, 50))
+            
         pygame.display.flip()
+        
+        self.render_time = time.time() - start_time
 
     def run(self):
         clock = pygame.time.Clock()
         running = True
+        
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
             
             keys = pygame.key.get_pressed()
-            # Fallback to the original method if cache isn't available
             if keys[pygame.K_LEFT]:
                 pass
             if keys[pygame.K_RIGHT]:
@@ -88,11 +115,21 @@ class Display:
                 self.frame_rate *= 1.2
             if keys[pygame.K_DOWN] and self.frame_rate > 0.3:
                 self.frame_rate /= 1.2
+            if keys[pygame.K_f]:
+                self.show_fps = not self.show_fps
             if keys[pygame.K_q] or keys[pygame.K_SPACE] or keys[pygame.K_RETURN]:
                 running = False
                 
+            # Measure update time
+            update_start = time.time()
             self.game.switch_all()
+            self.update_time = time.time() - update_start
+            
             self.render()
+            
+            # Calculate actual FPS
+            self.last_fps = clock.get_fps()
             clock.tick(self.frame_rate)
+            
         pygame.quit()
         sys.exit()

@@ -11,11 +11,16 @@ HELP_MSG = """
     in your terminal\n
     or open the rules.py file\n
  
-    Quit pressing q
+    Controls:
+    - UP/DOWN: Adjust simulation speed
+    - F: Toggle FPS display
+    - Q/SPACE/RETURN: Quit
 """
 
 argparser = argparse.ArgumentParser(description=HELP_MSG)
 argparser.add_argument("-f", "--files", nargs='*', type=str, default=["rules.py"], help="can run from several files")
+argparser.add_argument("--perf", action="store_true", help="Enable performance mode with optimized rendering")
+argparser.add_argument("--zoom", type=int, default=10, help="Cell size in pixels (default: 10)")
 args = argparser.parse_args()
 
 if __name__ == "__main__":
@@ -24,5 +29,13 @@ if __name__ == "__main__":
     for file in args.files:
         with open(file, 'r') as src, open(FILE_INTERPRETED, 'w') as dest:
             dest.write(src.read() + '\n')
-    os.system(f"{sys.executable} utils/src/main.py")
+            
+    # Pass command line arguments to the simulation
+    cmd = f"{sys.executable} utils/src/main.py"
+    if args.perf:
+        cmd += " --perf"
+    if args.zoom:
+        cmd += f" --zoom {args.zoom}"
+    
+    os.system(cmd)
 

@@ -45,6 +45,7 @@ class Field:
     def rand(self):
         y_coords, x_coords = np.mgrid[0:self.height, 0:self.width]
         
+        # Use vectorized operations where possible
         for y in range(self.height):
             for x in range(self.width):
                 border = self.is_border(y, x)
@@ -52,6 +53,9 @@ class Field:
                     self.set(borders[border], x, y)
                 else:
                     self.set(self.kinds.rand(), x, y)
+                    
+        # Ensure borders are set
+        self.surround_field()
         return self
 
     def surround_field(self, up=None, down=None, left=None, right=None):

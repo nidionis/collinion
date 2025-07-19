@@ -74,12 +74,34 @@ class Game:
         self.next_field.set(kind_obj, cell.x, cell.y)
 
     def switch(self, rules):
-        self.next_field = Field(self.kinds, self.width, self.height)
+        # Initialize the next field if not already done
+        if self.next_field is None:
+            self.next_field = Field(self.kinds, self.width, self.height)
+            self.next_field.surround_field()  # Make sure borders are set
+        
+        # Process all cells with the current rule
         for cell in self:
             self.switch_cell(cell, rules)
-        self.field = self.next_field
-
+            
+        # Swap field references
+        self.field, self.next_field = self.next_field, self.field
+    
     def switch_all(self):
+        # Create a temporary field for the first rule only once
+        if self.next_field is None:
+            self.next_field = Field(self.kinds, self.width, self.height)
+            # Copy the border setup from the current field
+            self.next_field.surround_field()
+            
+            # Pre-populate the next field with borders identical to current field
+            # This avoids having to set borders on every switch
+            for y in range(self.height):
+                for x in range(self.width):
+                    if self.field.is_border(y, x):
+                        kind = self.field.cells[y, x].kind
+                        self.next_field.set(kind, x, y)
+        
+        # Apply all rules in sequence, reusing the fields
         for fts_rules in self.fts_rules:
             self.switch(fts_rules)
 
