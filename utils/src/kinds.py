@@ -27,10 +27,11 @@ class Kinds:
 
     def __init__(self, *args, **kwargs):
         self.add(*args, **kwargs)
+        self.add("DFLT", "black", hotness=0)
 
     def add(self, name=None, color="pink", hotness=1):
         if name is None:
-            name = "null"
+            name = "DFLT"
             hotness = 0
 
         self.kinds[name] = {
