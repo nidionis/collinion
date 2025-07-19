@@ -52,11 +52,11 @@ def hello_world(cell):
 # will be applied to the matrix
 # in ALPHABETICAL ORDER                    
 
-def a_gravity(cell):
-    if cell == "empty":
-        return cell.up()
-    if cell.down("empty"):
-        return "empty"
+#def a_gravity(cell):
+#    if cell == "empty":
+#        return cell.up()
+#    if cell.down("empty"):
+#        return "empty"
 
 # the matrix is modified by a_gravit BEFORE due to alphabetial order of functions
 # (and that matters)

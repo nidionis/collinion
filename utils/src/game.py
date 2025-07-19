@@ -3,7 +3,7 @@ import pygame
 from field import Field, borders
 from kinds import Kinds
 from display import Display
-from cell import CellProxy, Cell
+from cell import Cell
 
 import importlib
 import inspect
@@ -30,6 +30,7 @@ class Game:
         if not self.height:
             self.height = pygame.display.Info().current_h // self.zoom
         self.display = None
+        self.reusable_cell = None
 
     def __iter__(self):
         return iter(self.field)
@@ -58,14 +59,19 @@ class Game:
         return self
 
     def switch_cell(self, cell, rules):
-        cell_proxy = CellProxy(cell, self.field)
-        new_kind = str(rules(cell_proxy))
+        # Use a reusable cell instance to avoid creating new objects
+        if not self.reusable_cell:
+            self.reusable_cell = Cell(cell.kind, cell.x, cell.y, field=self.field)
+        else:
+            self.reusable_cell.update(cell, self.field)
+            
+        new_kind = str(rules(self.reusable_cell))
         try:
             kind_obj = self.kinds.kind(new_kind)
         except ValueError as e:
             if e.args[0] == "kind None not found":
                 kind_obj = cell.kind
-        self.next_field.set(Cell(kind_obj, cell.x, cell.y), cell.x, cell.y)
+        self.next_field.set(kind_obj, cell.x, cell.y)
 
     def switch(self, rules):
         self.next_field = Field(self.kinds, self.width, self.height)

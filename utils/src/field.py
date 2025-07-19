@@ -34,7 +34,12 @@ class Field:
     def set(self, kind, x, y):
         if isinstance(kind, str):
             kind = self.kinds.kind(kind)
-        cell = Cell(kind, x, y)
+        if isinstance(kind, Cell):
+            # If a Cell is passed directly, update its field reference
+            cell = kind
+            cell.field = self
+        else:
+            cell = Cell(kind, x, y, field=self)
         self.cells[y, x] = cell
 
     def rand(self):
