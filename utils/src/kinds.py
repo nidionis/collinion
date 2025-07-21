@@ -4,10 +4,11 @@ import numpy as np
 import random
 
 class Kind:
-    def __init__(self, name, color, hotness):
+    def __init__(self, name, color, hotness=1, weight=1):
         self.name = name
         self.color = color
         self.hotness = hotness
+        self.weight = weight
 
     def __str__(self):
         return self.name
@@ -22,7 +23,7 @@ class Kinds:
     hotness_total = 0
     # Cache for random selection
     kind_names = None
-    kind_weights = None
+    hotness_ratio = None
 
     colors = config["colors"]
     try:
@@ -33,34 +34,35 @@ class Kinds:
     def __init__(self, *args, **kwargs):
         self.add(*args, **kwargs)
         self.add("DFLT", "black", hotness=0)
-        # Initialize cache arrays
         self._update_random_cache()
 
     def _update_random_cache(self):
-        # Create arrays for efficient random selection
         self.kind_names = np.array(list(self.kinds.keys()))
-        self.kind_weights = np.array([self.kinds[k]["hotness"] for k in self.kind_names])
-        # Normalize weights for numpy.random.choice
+        self.hotness_ratio = np.array([self.kinds[k]["hotness"] for k in self.kind_names])
         if self.hotness_total > 0:
-            self.kind_weights = self.kind_weights / self.hotness_total
+            self.hotness_ratio = self.hotness_ratio / self.hotness_total
 
-    def add(self, name=None, color="pink", hotness=1):
+    def add(self, name=None, color="pink", hotness=1, weight=1):
         if name is None:
             name = "DFLT"
             hotness = 0
+            weight = 0
 
         self.kinds[name] = {
             "color": color,
-            "hotness": hotness
+            "hotness": hotness,
+            "weight": weight
         }
         self.hotness_total += hotness
-        # Update cache when adding new kinds
         self._update_random_cache()
 
     def kind(self, name):
         if name not in self.kinds:
             raise ValueError(f"kind {name} not found")
-        return Kind(name, self.color(name), self.hotness(name))
+        return Kind(name, self.color(name), self.hotness(name), self.weight(name))
+
+    def weight(self, kind):
+        return self.kinds[str(kind)]["weight"]
 
     def color(self, kind):
         return self.kinds[str(kind)]["color"]
@@ -76,7 +78,7 @@ class Kinds:
             return self.kind("DFLT")
             
         if len(self.kind_names) > 0:
-            selected = np.random.choice(self.kind_names, p=self.kind_weights)
+            selected = np.random.choice(self.kind_names, p=self.hotness_ratio)
             return self.kind(selected)
         else:
             r = random.randint(1, self.hotness_total)

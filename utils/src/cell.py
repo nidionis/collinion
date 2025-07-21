@@ -134,3 +134,6 @@ class Cell:
                 return self.field.cells[self.y+1, self.x-1]
         except (IndexError, AttributeError):
             return None if kind is None else False
+
+    def weight(self):
+        return self.kind.weight

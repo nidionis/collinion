@@ -48,8 +48,8 @@ class Game:
         #self.setup()
         self.display.run()
 
-    def add_kind(self, name, color, hotness=1):
-        self.kinds.add(name, color, hotness)
+    def add_kind(self, name, color, hotness=1, weight=1):
+        self.kinds.add(name, color, hotness, weight)
         return self
 
     def randomize(self):
@@ -87,21 +87,14 @@ class Game:
         self.field, self.next_field = self.next_field, self.field
     
     def switch_all(self):
-        # Create a temporary field for the first rule only once
         if self.next_field is None:
             self.next_field = Field(self.kinds, self.width, self.height)
-            # Copy the border setup from the current field
             self.next_field.surround_field()
-            
-            # Pre-populate the next field with borders identical to current field
-            # This avoids having to set borders on every switch
             for y in range(self.height):
                 for x in range(self.width):
                     if self.field.is_border(y, x):
                         kind = self.field.cells[y, x].kind
                         self.next_field.set(kind, x, y)
-        
-        # Apply all rules in sequence, reusing the fields
         for fts_rules in self.fts_rules:
             self.switch(fts_rules)
 

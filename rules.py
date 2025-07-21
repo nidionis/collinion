@@ -3,13 +3,15 @@
 
 # define your kinds
 def setup(game):
-    game.add_kind("empty", "black")
+    game.add_kind("empty", "black", weight=0)
     game.add_kind("alive", "white", hotness=2)
     game.add_kind("water", "blue", hotness=0)
 
     # Note:
     # an hotness N gives N more chance to set this kind of
     # cell than a default one when randomized
+    # default hotness = 1
+    # default weight = 1
 
     #optional
     game.set_border("UP", "water") # make rain if gravity
@@ -42,6 +44,8 @@ def hello_world(cell):
 #   - down_right() or down_right("type")
 #   - down_left() or down_left("type")
 
+#   - cell.weight()
+
 # Note:
 # You are not moving cells but stransforming themself
 
@@ -53,10 +57,10 @@ def hello_world(cell):
 # in ALPHABETICAL ORDER                    
 
 #def a_gravity(cell):
-#    if cell == "empty":
+#    if cell.up().weight() > cell.weight():
 #        return cell.up()
-#    if cell.down("empty"):
-#        return "empty"
+#    if cell.down().weight() < cell.weight():
+#        return cell.down()
 
 # the matrix is modified by a_gravit BEFORE due to alphabetial order of functions
 # (and that matters)
