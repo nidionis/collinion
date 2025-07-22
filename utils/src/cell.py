@@ -17,7 +17,20 @@ class Cell:
         return str(self.kind)
 
     def __eq__(self, other):
-        return str(self) == str(other)
+        if str(self) == str(other):
+            return True
+
+    def __lt__(self, other):
+        return self.weight() < other.weight()
+
+    def __gt__(self, other):
+        return self.weight() > other.weight()
+
+    def __le__(self, other):
+        return self.weight() <= other.weight()
+
+    def __ge__(self, other):
+        return self.weight() >= other.weight()
 
     def update(self, cell=None, field=None):
         """Update this cell's properties from another cell without creating a new object"""

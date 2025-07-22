@@ -59,7 +59,6 @@ class Game:
         return self
 
     def switch_cell(self, cell, rules):
-        # Use a reusable cell instance to avoid creating new objects
         if not self.reusable_cell:
             self.reusable_cell = Cell(cell.kind, cell.x, cell.y, field=self.field)
         else:

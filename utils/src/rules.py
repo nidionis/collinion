@@ -1,68 +1,52 @@
-# welcome
-# A line starting by # is a comment (not executed)
-
-# define your kinds
 def setup(game):
     game.add_kind("empty", "black", weight=0)
-    game.add_kind("alive", "white", hotness=2)
-    game.add_kind("water", "blue", hotness=0)
+    game.add_kind("cloud", "white", weight=-1)
+    game.add_kind("water", "blue", hotness=1)
+    game.add_kind("grass", "green", weight=2, hotness=1)
+    game.add_kind("dirt", "brown", weight=3, hotness=1)
 
-    # Note:
-    # an hotness N gives N more chance to set this kind of
-    # cell than a default one when randomized
-    # default hotness = 1
-    # default weight = 1
+    game.set_border("DOWN", "dirt")   # earth bottom
+    game.set_border("UP", "cloud")   # sky top
 
-    #optional
-    game.set_border("UP", "water") # make rain if gravity
+def __flow_along(cell):
+    if cell.down() >= cell:
+        if cell.right() < cell:
+            return cell.right()
+    if cell.left() > cell:
+        if cell.left() >= cell.down_left():
+            return cell.left()
+    return cell
 
-def hello_world(cell):
-    if cell.around("alive") == 3:
-        return "alive"
-    if cell == "alive":
-        if cell.around("alive") < 2 or cell.around("alive") >= 4:
+
+def a_gravity(cell):
+    if cell.down().weight() < cell.weight():
+        return cell.down()
+    if cell.up().weight() > cell.weight():
+        return cell.up()
+    return __flow_along(cell)
+
+
+def b_cloud_rain(cell):
+    if cell == "empty" and cell.around("empty") == 8:
+        return "cloud"
+    if cell == "cloud":
+        if cell.around("cloud") or cell.around("water"):
+            return "water"
+
+def c_water_to_grass(cell):
+    if cell == "water" and cell.down() == "dirt":
+        return "grass"
+
+def d_grass_decay(cell):
+    if cell == "grass" and not cell.around("water"):
+        return "dirt"
+    if cell == "water":
+        if cell.around("grass"):
+            return "cloud"
+
+def f_spawn(cell):
+    if cell == "dirt":
+        if cell.side_down("dirt") == 3:
             return "empty"
-
-# ./run
-# it in your terminal !
-
-# Avalaible methods:
-
-#   - around("type")
-#
-#   - side_up("type")
-#   - side_down("type")
-#   - side_left("type")
-#   - side_right("type")
-
-#   - up() or up("type")
-#   - down() or down("type")
-#   - right() or right("type")
-#   - left() or left("type")
-#   - up_right() or up_right("type")
-#   - up_left() or up_left("type")
-#   - down_right() or down_right("type")
-#   - down_left() or down_left("type")
-
-#   - cell.weight()
-
-# Note:
-# You are not moving cells but stransforming themself
-
-######################################################################
-
-# excepting function "setup"
-# all functions
-# will be applied to the matrix
-# in ALPHABETICAL ORDER                    
-
-#def a_gravity(cell):
-#    if cell.up().weight() > cell.weight():
-#        return cell.up()
-#    if cell.down().weight() < cell.weight():
-#        return cell.down()
-
-# the matrix is modified by a_gravit BEFORE due to alphabetial order of functions
-# (and that matters)
 
 
