@@ -123,48 +123,30 @@ class Display:
         return False
 
     def run(self):
-        """Main game loop with event handling, updates and rendering."""
         clock = pygame.time.Clock()
         running = True
         
         while running:
             try:
-                # Handle events and input
-                # Handle events and input
-                running = self._process_events_and_input()
-
-                # Update game state
                 update_start = time.time()
                 running = self._process_events_and_input()
 
-                # Update game state
-                update_start = time.time()
-                # Process all rules and render between each
                 rule_generator = self.game.switch_all()
                 for _ in rule_generator:
-                    # Render current state
                     self.render()
                     pygame.display.flip()
-
                     self.update_time = time.time() - update_start
 
-                    # Render final state
                 self.render()
-
-                # Update FPS statistics and adjust frame rate
                 self._update_fps_statistics(clock)
 
-                # Limit to target frame rate
                 clock.tick(self.frame_rate)
-
-                # Check for quit events between rule applications
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
                         running = False
                         break
             except StopIteration:
                 break
-
         pygame.quit()
         sys.exit()
 

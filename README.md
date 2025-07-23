@@ -24,6 +24,8 @@ at least running in a terminal:
   
 can be satisfying
 
+or python3 run.py -f examples/<fileOfYourChoice>
+
 ### ADVERTISEMENT: Modifying rules.py is adictive
 
 V 0.9
