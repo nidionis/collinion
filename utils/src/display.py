@@ -123,49 +123,113 @@ class Display:
         return False
 
     def run(self):
+        """Main game loop with event handling, updates and rendering."""
         clock = pygame.time.Clock()
         running = True
+        
         while running:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    running = False
-            keys = pygame.key.get_pressed()
-            if keys[pygame.K_UP]:
-                prev_target = self.target_frame_rate
-                if not self.frame_lock:
-                    self.target_frame_rate = min(10000, self.target_frame_rate * 1.2)
-                else:
-                    self.target_frame_rate = self.max_achieved_fps * 1.2
-                self.frame_rate = self.target_frame_rate
-            if keys[pygame.K_DOWN] and self.target_frame_rate > 1:
-                self.target_frame_rate /= 1.2
-                self.frame_rate = self.target_frame_rate
-                self.frame_lock = False
-            if keys[pygame.K_p]:
-                self.handle_key_press('p', lambda: setattr(self, 'show_fps', not self.show_fps))
-            if keys[pygame.K_f]:
-                self.handle_key_press('f', lambda: setattr(self, 'show_fps', not self.show_fps))
-            if keys[pygame.K_r]:
-                self.handle_key_press('r', lambda: self._reset_speed())
-            if keys[pygame.K_q] or keys[pygame.K_SPACE] or keys[pygame.K_RETURN]:
-                running = False
-            update_start = time.time()
-            self.game.switch_all()
-            self.update_time = time.time() - update_start
-            self.render()
-            self.last_fps = clock.get_fps()
-            self.fps_history[self.history_index] = self.last_fps
-            self.history_index = (self.history_index + 1) % len(self.fps_history)
-            avg_fps = sum(self.fps_history) / len(self.fps_history)
-            if avg_fps > self.max_achieved_fps:
-                self.max_achieved_fps = avg_fps
-            if self.target_frame_rate > 30 and avg_fps < self.target_frame_rate * 0.8:
-                self.frame_lock = True
-                self.target_frame_rate = self.max_achieved_fps * 1.05
-                self.frame_rate = self.target_frame_rate
-            clock.tick(self.frame_rate)
+            try:
+                # Handle events and input
+                # Handle events and input
+                running = self._process_events_and_input()
+
+                # Update game state
+                update_start = time.time()
+                running = self._process_events_and_input()
+
+                # Update game state
+                update_start = time.time()
+                # Process all rules and render between each
+                rule_generator = self.game.switch_all()
+                for _ in rule_generator:
+                    # Render current state
+                    self.render()
+                    pygame.display.flip()
+
+                    self.update_time = time.time() - update_start
+
+                    # Render final state
+                self.render()
+
+                # Update FPS statistics and adjust frame rate
+                self._update_fps_statistics(clock)
+
+                # Limit to target frame rate
+                clock.tick(self.frame_rate)
+
+                # Check for quit events between rule applications
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        running = False
+                        break
+            except StopIteration:
+                break
+
         pygame.quit()
         sys.exit()
+
+    def _process_events_and_input(self):
+        """Process events and keyboard input."""
+        # Handle quit events
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return False
+        
+        keys = pygame.key.get_pressed()
+        
+        # Handle frame rate adjustment
+        if keys[pygame.K_UP]:
+            self._increase_frame_rate()
+        if keys[pygame.K_DOWN] and self.target_frame_rate > 1:
+            self._decrease_frame_rate()
+        
+        # Handle toggle and action keys
+        if keys[pygame.K_p]:
+            self.handle_key_press('p', lambda: setattr(self, 'show_fps', not self.show_fps))
+        if keys[pygame.K_f]:
+            self.handle_key_press('f', lambda: setattr(self, 'show_fps', not self.show_fps))
+        if keys[pygame.K_r]:
+            self.handle_key_press('r', lambda: self._reset_speed())
+        
+        # Check for exit keys
+        if keys[pygame.K_q] or keys[pygame.K_SPACE] or keys[pygame.K_RETURN]:
+            return False
+        
+        return True
+
+    def _increase_frame_rate(self):
+        """Increase the target frame rate."""
+        if not self.frame_lock:
+            self.target_frame_rate = min(10000, self.target_frame_rate * 1.2)
+        else:
+            self.target_frame_rate = self.max_achieved_fps * 1.2
+        self.frame_rate = self.target_frame_rate
+
+    def _decrease_frame_rate(self):
+        """Decrease the target frame rate and release frame lock."""
+        self.target_frame_rate /= 1.2
+        self.frame_rate = self.target_frame_rate
+        self.frame_lock = False
+
+    def _update_fps_statistics(self, clock):
+        """Update FPS statistics and adjust frame rate if necessary."""
+        # Update FPS history
+        self.last_fps = clock.get_fps()
+        self.fps_history[self.history_index] = self.last_fps
+        self.history_index = (self.history_index + 1) % len(self.fps_history)
+        
+        # Calculate average FPS
+        avg_fps = sum(self.fps_history) / len(self.fps_history)
+        
+        # Update maximum achieved FPS
+        if avg_fps > self.max_achieved_fps:
+            self.max_achieved_fps = avg_fps
+        
+        # Auto-adjust frame rate if performance is insufficient
+        if self.target_frame_rate > 30 and avg_fps < self.target_frame_rate * 0.8:
+            self.frame_lock = True
+            self.target_frame_rate = self.max_achieved_fps * 1.05
+            self.frame_rate = self.target_frame_rate
 
     def _reset_speed(self):
         """Reset speed to default"""

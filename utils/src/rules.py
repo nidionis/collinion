@@ -8,30 +8,26 @@ def setup(game):
     game.set_border("DOWN", "dirt")   # earth bottom
     game.set_border("UP", "cloud")   # sky top
 
-def __flow_along(cell):
-    if cell.down() >= cell:
+def bb_cloud_rain(cell):
+    if cell == "cloud":
+        if cell.around("cloud") or cell.around("water"):
+            return "water"
+
+def a_flow_along(cell):
+    if cell == "cloud":
+        return cell
+    if cell.up() == cell:
         if cell.right() < cell:
             return cell.right()
     if cell.left() > cell:
-        if cell.left() >= cell.down_left():
+        if cell.left() == cell.up_left():
             return cell.left()
-    return cell
 
-
-def a_gravity(cell):
+def b_gravity(cell):
     if cell.down().weight() < cell.weight():
         return cell.down()
     if cell.up().weight() > cell.weight():
         return cell.up()
-    return __flow_along(cell)
-
-
-def b_cloud_rain(cell):
-    if cell == "empty" and cell.around("empty") == 8:
-        return "cloud"
-    if cell == "cloud":
-        if cell.around("cloud") or cell.around("water"):
-            return "water"
 
 def c_water_to_grass(cell):
     if cell == "water" and cell.down() == "dirt":
@@ -43,10 +39,4 @@ def d_grass_decay(cell):
     if cell == "water":
         if cell.around("grass"):
             return "cloud"
-
-def f_spawn(cell):
-    if cell == "dirt":
-        if cell.side_down("dirt") == 3:
-            return "empty"
-
 

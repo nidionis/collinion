@@ -96,6 +96,7 @@ class Game:
                         self.next_field.set(kind, x, y)
         for fts_rules in self.fts_rules:
             self.switch(fts_rules)
+            yield  # Yield after each rule is applied
 
     def set_border(self, border, kind):
         borders[border] = kind
