@@ -56,4 +56,3 @@ def f_grass_decay(cell):
     if cell == "water":
         if cell.around("grass"):
             return "cloud"
-

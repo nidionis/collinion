@@ -130,15 +130,14 @@ class Display:
             try:
                 update_start = time.time()
                 running = self._process_events_and_input()
-
-                rule_generator = self.game.switch_all()
-                for _ in rule_generator:
+                turn = self.game.switch_all()
+                for _ in turn:
                     self.render()
                     pygame.display.flip()
                     self.update_time = time.time() - update_start
 
-                self.render()
                 self._update_fps_statistics(clock)
+                self.render()
 
                 clock.tick(self.frame_rate)
                 for event in pygame.event.get():
