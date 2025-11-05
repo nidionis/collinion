@@ -3,9 +3,9 @@
 
 # define your kinds
 def setup(game):
-    game.add_kind("dead", "black", weight=0)
+    game.add_kind("empty", "black", weight=0)
     game.add_kind("alive", "white", hotness=2)
-    game.add_kind("zombie", "green", hotness=0)
+    game.add_kind("water", "blue", hotness=0)
 
     # Note:
     # an hotness N gives N more chance to set this kind of
@@ -14,19 +14,14 @@ def setup(game):
     # default weight = 1
 
     #optional
-    game.set_border("UP", "alive") # make rain if gravity
-    game.set_border("RIGHT", "zombie") # make rain if gravity
-    game.set_border("LEFT", "zombie") # make rain if gravity
-    game.set_border("DOWN", "dead") # make rain if gravity
+    game.set_border("UP", "water") # make rain if gravity
 
-def zombies(cell):
+def hello_world(cell):
     if cell.around("alive") == 3:
         return "alive"
     if cell == "alive":
         if cell.around("alive") < 2 or cell.around("alive") >= 4:
-            return "zombie"
-    if cell == "zombie":
-        return "dead"
+            return "empty"
 
 # ./run
 # it in your terminal !
@@ -66,8 +61,7 @@ def a_gravity(cell):
         return cell.up()
     if cell.down().weight() < cell.weight():
         return cell.down()
- 
+
 # the matrix is modified by a_gravit BEFORE due to alphabetial order of functions
 # (and that matters)
-
 

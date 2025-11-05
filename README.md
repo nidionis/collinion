@@ -24,9 +24,11 @@ at least running in a terminal:
   
 can be satisfying
 
-or ./run -f examples/<fileOfYourChoice>
-or ./run -h for such an helpfull message
 
+or ./run rules.py
+    -note: you should love modifying it
+or ./run examples/<fileOfYourChoice>
+or ./run -h for such an helpfull message
 
 ### ADVERTISEMENT: Modifying rules.py is adictive
 
