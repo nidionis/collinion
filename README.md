@@ -20,11 +20,13 @@ Inspired by Dimitri Collignon, Here some of his (musical) work:
 
 at least running in a terminal:
 
-    python3 run.py
+    ./run
   
 can be satisfying
 
-or python3 run.py -f examples/<fileOfYourChoice>
+or ./run -f examples/<fileOfYourChoice>
+or ./run -h for such an helpfull message
+
 
 ### ADVERTISEMENT: Modifying rules.py is adictive
 

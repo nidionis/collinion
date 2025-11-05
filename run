@@ -1,0 +1,4 @@
+. utils/bin/activate
+pip -q install pygame
+pip -q install numpy
+./utils/run.py $@
