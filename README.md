@@ -11,7 +11,6 @@
   Good luck to make a landscape ;)
   
 
-
 Inspired by Dimitri Collignon, Here some of his (musical) work:
   - KanDi https://www.youtube.com/watch?v=dtM9G354OAw🚡
   - Charlotte NARTZ https://www.youtube.com/watch?v=Ngixp7VVpNY
@@ -25,10 +24,10 @@ at least running in a terminal:
 can be satisfying
 
 
-or ./run rules.py
-    -note: you should love modifying it
 or ./run examples/<fileOfYourChoice>
 or ./run -h for such an helpfull message
+
+or ./run rules.py
 
 ### ADVERTISEMENT: Modifying rules.py is adictive
 
@@ -37,3 +36,13 @@ Next features for a V1.0:
 - a tutorial
 
 Let me know if you need more than a minute to install and play
+
+for windows users (btw you suck)
+Install wsl
+run in it:
+
+apt install git
+apt install python3
+apt install pip
+git clone https://github.com/nidionis/collinion.git
+cd collinion

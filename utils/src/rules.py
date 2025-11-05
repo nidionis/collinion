@@ -61,11 +61,11 @@ def zombies(cell):
 # will be applied to the matrix
 # in ALPHABETICAL ORDER                    
 
-def a_gravity(cell):
-    if cell.up().weight() > cell.weight():
-        return cell.up()
-    if cell.down().weight() < cell.weight():
-        return cell.down()
+#def a_gravity(cell):
+#    if cell.up().weight() > cell.weight():
+#        return cell.up()
+#    if cell.down().weight() < cell.weight():
+#        return cell.down()
  
 # the matrix is modified by a_gravit BEFORE due to alphabetial order of functions
 # (and that matters)
