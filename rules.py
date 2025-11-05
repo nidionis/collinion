@@ -13,12 +13,6 @@ def setup(game):
     # default hotness = 1
     # default weight = 1
 
-    #optional
-    game.set_border("UP", "alive") # make rain if gravity
-    game.set_border("RIGHT", "zombie") # make rain if gravity
-    game.set_border("LEFT", "zombie") # make rain if gravity
-    game.set_border("DOWN", "dead") # make rain if gravity
-
 def zombies(cell):
     if cell.around("alive") == 3:
         return "alive"
