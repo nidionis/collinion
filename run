@@ -1,4 +1,3 @@
-pip install -r requirements.txt
 cp -f $1 utils/src/rules.py
 echo 'rules file as $1'
 shift
