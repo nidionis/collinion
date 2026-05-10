@@ -1,4 +1,5 @@
-. utils/bin/activate
-pip -q install pygame
-pip -q install numpy
-./utils/run.py $@
+pip install -r requirements.txt
+cp -f $1 utils/src/rules.py
+echo 'rules file as $1'
+shift
+python3 utils/src/main.py $@
