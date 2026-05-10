@@ -171,11 +171,11 @@ class Display:
             self.handle_key_press('f', lambda: setattr(self, 'show_fps', not self.show_fps))
         if keys[pygame.K_r]:
             self.handle_key_press('r', lambda: self._reset_speed())
-        
+    
         # Check for exit keys
-        if keys[pygame.K_q] or keys[pygame.K_SPACE] or keys[pygame.K_RETURN]:
+        if keys[pygame.K_q] or keys[pygame.K_SPACE] or keys[pygame.K_RETURN] or keys[pygame.K_ESCAPE]:
             return False
-        
+    
         return True
 
     def _increase_frame_rate(self):
