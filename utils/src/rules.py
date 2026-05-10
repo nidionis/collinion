@@ -1,67 +1,48 @@
-# welcome
-# A line starting by # is a comment (not executed)
+# here a prototype of a world
 
-# define your kinds
 def setup(game):
     game.add_kind("empty", "black", weight=0)
-    game.add_kind("alive", "white", hotness=2)
-    game.add_kind("water", "blue", hotness=0)
+    game.add_kind("cloud", "white", weight=-1)
+    game.add_kind("water", "blue", hotness=1)
+    game.add_kind("grass", "green", weight=2, hotness=1)
+    game.add_kind("wood", "brown", weight=3, hotness=1)
+    game.add_kind("dirt", "orange", weight=4, hotness=1)
 
-    # Note:
-    # an hotness N gives N more chance to set this kind of
-    # cell than a default one when randomized
-    # default hotness = 1
-    # default weight = 1
+    game.set_border("DOWN", "dirt")   # earth bottom
+    game.set_border("UP", "cloud")   # sky top
 
-    #optional
-    game.set_border("UP", "water") # make rain if gravity
+def a_flow_along(cell):
+    if cell == "cloud":
+        return cell
+    if cell.side_down(cell) >= 2:
+        if cell.up() == cell:
+            if cell.right() == "empty" or cell.left() == "empty":
+                return "empty"
 
-def hello_world(cell):
-    if cell.around("alive") == 3:
-        return "alive"
-    if cell == "alive":
-        if cell.around("alive") < 2 or cell.around("alive") >= 4:
-            return "empty"
+def b_cloud_rain(cell):
+    if cell == "cloud":
+        if cell.around("cloud") + cell.around("water") >= 3:
+            return "water"
 
-# ./run
-# it in your terminal !
-
-# Avalaible methods:
-
-#   - around("type")
-#
-#   - side_up("type")
-#   - side_down("type")
-#   - side_left("type")
-#   - side_right("type")
-
-#   - up() or up("type")
-#   - down() or down("type")
-#   - right() or right("type")
-#   - left() or left("type")
-#   - up_right() or up_right("type")
-#   - up_left() or up_left("type")
-#   - down_right() or down_right("type")
-#   - down_left() or down_left("type")
-
-#   - cell.weight()
-
-# Note:
-# You are not moving cells but stransforming themself
-
-######################################################################
-
-# excepting function "setup"
-# all functions
-# will be applied to the matrix
-# in ALPHABETICAL ORDER                    
-
-def a_gravity(cell):
-    if cell.up().weight() > cell.weight():
-        return cell.up()
+def c_gravity(cell):
     if cell.down().weight() < cell.weight():
         return cell.down()
+    if cell.up().weight() > cell.weight():
+        return cell.up()
 
-# the matrix is modified by a_gravit BEFORE due to alphabetial order of functions
-# (and that matters)
+def d_water_to_grass(cell):
+    if cell == "water":
+        if cell.around("wood"):
+            return "grass"
 
+def e_grass_to_wood(cell):
+    if cell == "grass":
+        if cell.around("grass") >= 2:
+            if cell.around("wood") == 1:
+                if not cell.around("water"):
+                    return "wood"
+
+def f_grass_decay(cell):
+    if cell == "water":
+        if cell.around("grass"):
+            return "cloud"

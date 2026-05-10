@@ -2,6 +2,11 @@
 # Collinion <img width="128" height="64" alt="logo colinion" src="https://github.com/user-attachments/assets/2b21c1ff-75c8-450a-806c-da221795766b" />
  cellular automaton/simulator/generator
 
+ run
+    ./install.sh
+
+ and
+
   Make your own fancy game of life
   
   Implement a gravity
@@ -37,7 +42,7 @@ Next features for a V1.0:
 
 Let me know if you need more than a minute to install and play
 
-for windows users (btw you suck)
+for windows users
 Install wsl
 run in it:
 
