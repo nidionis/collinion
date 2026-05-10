@@ -1,4 +1,6 @@
 cp -f $1 utils/src/rules.py
 echo 'rules file as $1'
-shift
+if [ "$1" != "-h" ] ; then
+    shift
+fi
 python3 utils/src/main.py $@

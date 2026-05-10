@@ -29,10 +29,7 @@ at least running in a terminal:
 can be satisfying
 
 
-or ./run examples/<fileOfYourChoice>
-or ./run -h for such an helpfull message
-
-or ./run rules.py
+or ./run examples/\<fileOfYourChoice\>
 
 ### ADVERTISEMENT: Modifying rules.py is adictive
 
